@@ -152,4 +152,8 @@ public class Igra {
 		return false;
 	}
 	
+	
+	// TODO odigrane poteze
+	// TODO razveljavi zadnjo potezo
+	
 }
