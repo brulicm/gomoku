@@ -161,6 +161,10 @@ public class Igra {
 		return false;
 	}
 	
+	/**
+	 * Razveljavi nazadnje odigrano potezo.
+	 * @return true/false
+	 */
 	public boolean razveljaviPotezo() {
 		// if (lahko razveljavimo potezo)
 		if (this.odigranePoteze.size() >= 1) {
