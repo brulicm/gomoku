@@ -42,7 +42,7 @@ public class Igra {
 	
 	private Polje[][] plosca;
 	public Igralec naPotezi;
-	public List<Tuple<Igralec, Koordinate>> odigranePoteze;
+	public LinkedList<Tuple<Igralec, Koordinate>> odigranePoteze;
 	
 	/**
 	 * Konstruktor
@@ -65,7 +65,7 @@ public class Igra {
 	 */
 	public List<Koordinate> moznePoteze() {
 		// Spremenljivko, ki jo fukncija vrne, ponavadi poimenujem rtr, če se ne spomnem boljšega imena.
-		LinkedList<Koordinate> rtr = new LinkedList<Koordinate>();
+		List<Koordinate> rtr = new LinkedList<Koordinate>();
 		
 		for (int i = 0; i < N; ++i) {
 			for (int j = 0; j < N; ++j) {
@@ -161,14 +161,21 @@ public class Igra {
 		return false;
 	}
 	
-	
-	// TODO metoda razveljaviPotezo
-	// - vzame zadnji element odigranihPotez in ga zbriše (metoda .removeLast())
-	//     zadnjaPoteza = this.odigranePoteze.removeLast();
-	// - ustrezno polje na plošči nastavi na EMPTY (koordinate so v zadnjaPoteza)
-	// - (nazaj) spremeni igralca this.naPotezi
-	// - stanje igre nastavi na V_TEKU (mislim da mora biti ob reazveljavitvi poteze vedno v teku?)
-	
-	
-	
+	public boolean razveljaviPotezo() {
+		// if (lahko razveljavimo potezo)
+		if (this.odigranePoteze.size() >= 1) {
+			// Odstranimo zadnjo potezo in jo shranimo v spremenljivko.
+			Tuple<Igralec, Koordinate> zadnjaPoteza = this.odigranePoteze.removeLast();
+			// Ustrezno polje na plošči nastavimo na EMPTY.
+			this.plosca[zadnjaPoteza.snd.getX()][zadnjaPoteza.snd.getY()] = Polje.EMPTY;
+			// Popravimo igralca na potezi.
+			this.naPotezi = this.naPotezi.nasprotnik();
+			
+			return true;
+		}
+		
+		// Nobena poteza še ni bila odigrana.
+		return false;
+	}
+		
 }
