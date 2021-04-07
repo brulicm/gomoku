@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 /**
- * Objekt predstavlja poljubno vrstico na plošči (navpično, vodoravno, poševno).
+ * Objekt predstavlja poljubno vrstico (dolžine 5) na plošči (navpično, vodoravno, poševno).
  */
 
 public class Vrstica {
