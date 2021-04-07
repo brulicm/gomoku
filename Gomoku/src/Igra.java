@@ -4,7 +4,7 @@ import java.util.List;
 public class Igra {
 	
 	// Velikost igralne plošče N x N.
-	public static final int N = 15; // 19
+	public static final int N = 15; // ali 19
 	// Seznam vseh možnih vrstic dolžine 5 na plošči.
 	private static final List<Vrstica> VRSTICE = new LinkedList<Vrstica>();
 	
@@ -42,6 +42,7 @@ public class Igra {
 	
 	private Polje[][] plosca;
 	public Igralec naPotezi;
+	public List<Tuple<Igralec, Koordinate>> odigranePoteze;
 	
 	/**
 	 * Konstruktor
@@ -55,6 +56,7 @@ public class Igra {
 			}
 		}
 		this.naPotezi = Igralec.WHITE;
+		this.odigranePoteze = new LinkedList<Tuple<Igralec, Koordinate>>();
 	}
 	
 	/**
@@ -142,18 +144,31 @@ public class Igra {
 	 * @return true/false
 	 */
 	public boolean odigrajPotezo(Koordinate koor) {
+		
 		// if (polje na koordinatah je prazno)
 		if (this.plosca[koor.getX()][koor.getY()] == Polje.EMPTY) {
+			// Ustrezno zapolnimo polje na plošči na koordinatah koor.
 			this.plosca[koor.getX()][koor.getY()] = this.naPotezi.getPolje();
+			// Potezo (par) dodamo v odigranePoteze.
+			this.odigranePoteze.add(new Tuple<Igralec, Koordinate>(this.naPotezi, koor));
+			// Spremenimo igralca, ki je na potezi.
 			this.naPotezi = this.naPotezi.nasprotnik();
+			
 			return true;
 		}
+		
 		// Polje na koordinatah je že zasedeno.
 		return false;
 	}
 	
 	
-	// TODO odigrane poteze
-	// TODO razveljavi zadnjo potezo
+	// TODO metoda razveljaviPotezo
+	// - vzame zadnji element odigranihPotez in ga zbriše (metoda .removeLast())
+	//     zadnjaPoteza = this.odigranePoteze.removeLast();
+	// - ustrezno polje na plošči nastavi na EMPTY (koordinate so v zadnjaPoteza)
+	// - (nazaj) spremeni igralca this.naPotezi
+	// - stanje igre nastavi na V_TEKU (mislim da mora biti ob reazveljavitvi poteze vedno v teku?)
+	
+	
 	
 }
