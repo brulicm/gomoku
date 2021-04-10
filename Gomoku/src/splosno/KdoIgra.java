@@ -9,7 +9,7 @@ public class KdoIgra {
 	}
 	
 	public String ime() {
-		return ime;
+		return this.ime;
 	}
-
+	
 }
