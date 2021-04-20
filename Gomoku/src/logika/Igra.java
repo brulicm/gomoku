@@ -11,7 +11,6 @@ public class Igra {
 	// Seznam vseh možnih vrstic dolžine 5 na plošči.
 	private static final List<Vrstica> VRSTICE = new LinkedList<Vrstica>();
 	
-	// (source - Stack Overflow)
 	// This is a static initialization block, "a static version of the constructor".
 	// Constructors are run when the class is instantiated.
 	// Static initialization blocks get run when the class gets loaded.
@@ -60,6 +59,10 @@ public class Igra {
 		}
 		this.naPotezi = Igralec.WHITE;
 		this.odigranePoteze = new LinkedList<Tuple<Igralec, Koordinati>>();
+	}
+	
+	public Polje[][] getPlosca () {
+		return plosca;
 	}
 	
 	/**
