@@ -7,14 +7,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.EnumMap;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import vodja.Vodja;
 import vodja.VrstaIgralca;
+import logika.Igra;
 import logika.Igralec;
 
 
@@ -26,11 +30,11 @@ import logika.Igralec;
  *
  */
 @SuppressWarnings("serial")
-public class GlavnoOkno extends JFrame implements ActionListener {
+public class Okno extends JFrame implements ActionListener {
 	/**
 	 * JPanel, v katerega igramo
 	 */
-	private IgralnoPolje polje;
+	private Platno platno;
 
 	
 	//Statusna vrstica v spodnjem delu okna
@@ -41,40 +45,49 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 	private JMenuItem igraRacunalnikClovek;
 	private JMenuItem igraClovekClovek;
 	private JMenuItem igraRacunalnikRacunalnik;
+	private JMenu menuVelikostIgre;
+	private JMenu menuAlgoritem;
+	private JMenuItem menuCasPoteze;
+	private JMenuItem velikost15;
+	private JMenuItem velikost19;
+	private JMenuItem algoritemMinimax;
+	private JMenuItem algoritemAlfaBeta;
 
 	/**
 	 * Ustvari novo glavno okno in prièni igrati igro.
 	 */
-	public GlavnoOkno() {
+	public Okno() {
 		
 		this.setTitle("Gomoku");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new GridBagLayout());
-	
+		
 		// menu
 		JMenuBar menu_bar = new JMenuBar();
 		this.setJMenuBar(menu_bar);
-		JMenu igra_menu = new JMenu("Nova igra");
-		menu_bar.add(igra_menu);
-
-		igraClovekRacunalnik = new JMenuItem("Èlovek - raèunalnik");
-		igra_menu.add(igraClovekRacunalnik);
-		igraClovekRacunalnik.addActionListener(this);
 		
-		igraRacunalnikClovek = new JMenuItem("Raèunalnik - èlovek");
-		igra_menu.add(igraRacunalnikClovek);
-		igraRacunalnikClovek.addActionListener(this);
+		JMenu menuIgra = dodajMenu(menu_bar, "Nova Igra");
+		JMenu menuNastavitve = dodajMenu(menu_bar, "Nastavitve");
+	
+		igraClovekRacunalnik = dodajMenuItem(menuIgra, "Èlovek – raèunalnik");
+		igraRacunalnikClovek = dodajMenuItem(menuIgra, "Raèunalnik – èlovek");
+		igraClovekClovek = dodajMenuItem(menuIgra, "Èlovek – èlovek");
+		igraRacunalnikRacunalnik = dodajMenuItem(menuIgra, "Raèunalnik – raèunalnik");
 		
-		igraClovekClovek = new JMenuItem("Èlovek - Èlovek");
-		igra_menu.add(igraClovekClovek);
-		igraClovekClovek.addActionListener(this);
+		menuVelikostIgre = dodajPodmenu(menuNastavitve, "Velikost igre...");
+		velikost15 = dodajMenuItem(menuVelikostIgre, "15×15");
+		velikost19 = dodajMenuItem(menuVelikostIgre, "19×19");
 		
-		igraRacunalnikRacunalnik = new JMenuItem("Raèunalnik - raèunalnik");
-		igra_menu.add(igraRacunalnikRacunalnik);
-		igraRacunalnikRacunalnik.addActionListener(this);
-
+		menuAlgoritem = dodajPodmenu(menuNastavitve, "Algoritem...");
+		algoritemMinimax = dodajMenuItem(menuAlgoritem, "Minimax");
+		algoritemAlfaBeta = dodajMenuItem(menuAlgoritem, "AlfaBeta");
+		
+		menuCasPoteze = dodajMenuItem(menuNastavitve, "Nastavi èas poteze ...");
+		
+		
+		
 		// igralno polje
-		polje = new IgralnoPolje();
+		platno = new Platno();
 
 		GridBagConstraints polje_layout = new GridBagConstraints();
 		polje_layout.gridx = 0;
@@ -82,7 +95,8 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 		polje_layout.fill = GridBagConstraints.BOTH;
 		polje_layout.weightx = 1.0;
 		polje_layout.weighty = 1.0;
-		getContentPane().add(polje, polje_layout);
+		getContentPane().add(platno, polje_layout);
+		
 		
 		// statusna vrstica za sporoèila
 		status = new JLabel();
@@ -97,6 +111,27 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 		
 		status.setText("Izberite igro!");
 		
+	}
+	
+	// pomožni metodi za kontruiranje menuja
+
+	public JMenu dodajMenu(JMenuBar menu_bar, String naslov) {
+		JMenu menu = new JMenu(naslov);
+		menu_bar.add(menu);
+		return menu;
+	}
+	
+	public JMenu dodajPodmenu(JMenu menu, String naslov) {
+		JMenu podmenu = new JMenu(naslov);
+		menu.add(podmenu);
+		return podmenu;
+	}
+	
+	public JMenuItem dodajMenuItem(JMenu menu, String naslov) {
+		JMenuItem menuitem = new JMenuItem(naslov);
+		menu.add(menuitem);
+		menuitem.addActionListener(this);
+		return menuitem;		
 	}
 	
 	
@@ -122,8 +157,32 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.R); 
 			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.R);
 			Vodja.igramoNovoIgro();
+		} else if (e.getSource() == velikost15) {
+			if (Vodja.igra != null) {
+			status.setText("Igra je že v teku. Ne morete je veè spreminjati.");
+			}
+			else Igra.N = 15;
+		} else if (e.getSource() == velikost19) {
+			if (Vodja.igra != null) {
+			status.setText("Igra je že v teku. Ne morete je veè spreminjati.");
+			}
+			else Igra.N = 19;
+		} else if (e.getSource() == menuCasPoteze) {
+			JTextField cas = new JTextField();
+			JComponent[] polja = {
+					new JLabel("Vnesi èas poteze:"), cas};
+			int izbira = JOptionPane.showConfirmDialog(this,  polja, "Input", JOptionPane.OK_CANCEL_OPTION);
+			String casPoteze = cas.getText();
+			if (izbira == JOptionPane.OK_OPTION && casPoteze.matches("\\d+")) {
+				Vodja.cas = Integer.valueOf(casPoteze);
+			};
+			
 		}
+		else if (e.getSource() == algoritemAlfaBeta) {}
+		else if (e.getSource() == algoritemMinimax) {}
 	}
+		
+	
 
 	public void osveziGUI() {
 		if (Vodja.igra == null) {
@@ -146,7 +205,7 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 				break;
 			}
 		}
-		polje.repaint();
+		platno.repaint();
 	}
 	
 

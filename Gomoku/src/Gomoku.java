@@ -1,14 +1,14 @@
 
 import java.io.IOException;
 
-import gui.GlavnoOkno;
+import gui.Okno;
 import vodja.Vodja;
 
 public class Gomoku {
 	
 	public static void main(String[] args) throws IOException {
 
-		GlavnoOkno glavno_okno = new GlavnoOkno();
+		Okno glavno_okno = new Okno();
 		glavno_okno.pack();
 		glavno_okno.setVisible(true);
 		Vodja.okno = glavno_okno;

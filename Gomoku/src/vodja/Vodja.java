@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.SwingWorker;
 import java.util.concurrent.TimeUnit;
 
-import gui.GlavnoOkno;
+import gui.Okno;
 import logika.Igra;
 import logika.Igralec;
 import splosno.Koordinati;
@@ -16,7 +16,7 @@ public class Vodja {
 	
 	public static Map<Igralec,VrstaIgralca> vrstaIgralca;
 	
-	public static GlavnoOkno okno;
+	public static Okno okno;
 	
 	public static Igra igra = null;
 	
@@ -50,12 +50,14 @@ public class Vodja {
 	
 	private static Random random = new Random ();
 	
+	public static int cas = 2;
+	
 	public static void igrajRacunalnikovoPotezo() {
 		Igra zacetkaIgra = igra;
 		SwingWorker<Koordinati, Void> worker = new SwingWorker<Koordinati, Void> () {
 			@Override
 			protected Koordinati doInBackground() {
-				try {TimeUnit.SECONDS.sleep(2);} catch (Exception e) {};
+				try {TimeUnit.SECONDS.sleep(cas);} catch (Exception e) {};
 				List<Koordinati> moznePoteze = igra.moznePoteze();
 				int randomIndex = random.nextInt(moznePoteze.size());
 				return moznePoteze.get(randomIndex);

@@ -7,7 +7,7 @@ import splosno.Koordinati;
 public class Igra {
 	
 	// Velikost igralne plošče N x N.
-	public static final int N = 15; // ali 19
+	public static int N = 15; // ali 19
 	// Seznam vseh možnih vrstic dolžine 5 na plošči.
 	private static final List<Vrstica> VRSTICE = new LinkedList<Vrstica>();
 	

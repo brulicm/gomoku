@@ -20,9 +20,9 @@ import logika.Vrstica;
  * Pravokotno obmoèje, v katerem je narisano igralno polje.
  */
 @SuppressWarnings("serial")
-public class IgralnoPolje extends JPanel implements MouseListener {
+public class Platno extends JPanel implements MouseListener {
 	
-	public IgralnoPolje() {
+	public Platno() {
 		setBackground(new Color(210,180,140));
 		this.addMouseListener(this);
 		
@@ -32,7 +32,6 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	public Dimension getPreferredSize() {
 		return new Dimension(400, 400);
 	}
-
 	
 	// Relativna širina èrte
 	private final static double LINE_WIDTH = 0.05; //relativna širina èrte
