@@ -42,7 +42,7 @@ public class Platno extends JPanel implements MouseListener {
 		return Math.min(this.getWidth(), this.getHeight()) / Igra.N;
 	}
 	
-	// Relativni prostor okoli belih/črnih krogov
+	// Relativni prostor okoli žetonov
 	private final static double PADDING = 0.14;
 	
 	/**
@@ -52,16 +52,16 @@ public class Platno extends JPanel implements MouseListener {
 	 * @param i
 	 * @param j
 	 */
-	private void paintBLACK(Graphics2D g2, int i, int j) {
+	private void paintBLACK(Graphics2D g2, int i, int j, double moveX, double moveY) {
 		double w = this.squareWidth();
-		double d = w * (1 - LINE_WIDTH - 2 * PADDING); // Premer kroga
+		double d = w * (1 - LINE_WIDTH - 2 * PADDING); // Premer žetona
 		// Koordinate zgornjega levega oglišča objemajočega kvadrata.
 		double x = w * (i + 0.5 * LINE_WIDTH + PADDING);
 		double y = w * (j + 0.5 * LINE_WIDTH + PADDING);
 		
 		g2.setColor(Color.BLACK);
 		g2.setStroke(new BasicStroke((float)(w * LINE_WIDTH)));
-		g2.fillOval((int)x, (int)y, (int)d , (int)d);
+		g2.fillOval((int)x + (int)moveX, (int)y + (int)moveY, (int)d, (int)d);
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class Platno extends JPanel implements MouseListener {
 	 * @param i
 	 * @param j
 	 */
-	private void paintWHITE(Graphics2D g2, int i, int j) {
+	private void paintWHITE(Graphics2D g2, int i, int j, double moveX, double moveY) {
 		double w = this.squareWidth();
 		double d = w * (1 - LINE_WIDTH - 2 * PADDING); // Premer kroga
 		// Koordinate zgornjega levega oglišča objemajočega kvadrata.
@@ -80,7 +80,7 @@ public class Platno extends JPanel implements MouseListener {
 		
 		g2.setColor(Color.WHITE);
 		g2.setStroke(new BasicStroke((float)(w * LINE_WIDTH)));
-		g2.fillOval((int)x, (int)y, (int)d , (int)d);
+		g2.fillOval((int)x + (int)moveX, (int)y + (int)moveY, (int)d , (int)d);
 	}
 	
 	@Override
@@ -89,17 +89,21 @@ public class Platno extends JPanel implements MouseListener {
 		
 		Graphics2D g2 = (Graphics2D)g;
 
-		double w = this.squareWidth();
+		double w = this.squareWidth(); // Velikost enega kvadratka
+		double xx = this.getWidth(); // Širina okna
+		double yy = this.getHeight(); // Višina okna
+		double moveXX = Math.max(0, (double)(xx - yy) / 2.0); // Centriranje igralne plošče
+		double moveYY = Math.max(0, (double)(yy - xx) / 2.0); // Centriranje igralne plošče
 
 		// Če imamo zmagovalno n-terico, njeno ozadje pobarvamo
 		Vrstica v = null;
 		if (Vodja.igra != null) v = Vodja.igra.zmagovalnaVrstica();
 		if (v != null) {
-			g2.setColor(new Color(160,82,45));
+			g2.setColor(new Color(185,142,86));
 			for (int k = 0; k < 5; ++k) {
 				int i = v.x[k];
 				int j = v.y[k];
-				g2.fillRect((int)(w * i), (int)(w * j), (int)w, (int)w);
+				g2.fillRect((int)(w * i) + (int)moveXX, (int)(w * j) + (int)moveYY, (int)w, (int)w);
 			}
 		}
 		
@@ -107,14 +111,10 @@ public class Platno extends JPanel implements MouseListener {
 		g2.setColor(Color.BLACK);
 		g2.setStroke(new BasicStroke((float)(w * LINE_WIDTH)));
 		for (int i = 1; i < Igra.N; ++i) {
-			g2.drawLine((int)(i * w),
-					    (int)(0),
-					    (int)(i * w),
-					    (int)(Igra.N * w));
-			g2.drawLine((int)(0),
-					    (int)(i * w),
-					    (int)(Igra.N * w),
-					    (int)(i * w));
+			g2.drawLine((int)(i * w + moveXX), (int)(moveYY),
+					    (int)(i * w + moveXX), (int)(Igra.N * w + moveYY));
+			g2.drawLine((int)(moveXX), (int)(i * w + moveYY),
+					    (int)(Igra.N * w + moveXX), (int)(i * w + moveYY));
 		}
 		
 		// Narišemo žetone
@@ -124,8 +124,8 @@ public class Platno extends JPanel implements MouseListener {
 			for (int i = 0; i < Igra.N; ++i) {
 				for (int j = 0; j < Igra.N; ++j) {
 					switch(plosca[i][j]) {
-					case BLACK: this.paintBLACK(g2, i, j); break;
-					case WHITE: this.paintWHITE(g2, i, j); break;
+					case BLACK: this.paintBLACK(g2, i, j, moveXX, moveYY); break;
+					case WHITE: this.paintWHITE(g2, i, j, moveXX, moveYY); break;
 					default: break;
 					}
 				}
@@ -137,15 +137,22 @@ public class Platno extends JPanel implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (Vodja.clovekNaVrsti) {
-			int x = e.getX();
-			int y = e.getY();
+			double xx = this.getWidth(); // Širina okna
+			double yy = this.getHeight(); // Višina okna
+			double moveXX = Math.max(0, (double)(xx - yy) / 2.0); // Centriranje igralne plošče
+			double moveYY = Math.max(0, (double)(yy - xx) / 2.0); // Centriranje igralne plošče
+			
+			int x = e.getX() - (int)moveXX;
+			int y = e.getY() - (int)moveYY;
 			int w = (int)(this.squareWidth());
+			
 			// Koordinate kvadratka
 			int i = x / w;
 			int j = y / w;
 			// di in dj nam povesta, ali smo v sredini kvadratka ali na črti.
 			double di = (x % w) / this.squareWidth();
 			double dj = (y % w) / this.squareWidth();
+			
 			if (0 <= i && i < Igra.N &&
 					0.5 * LINE_WIDTH < di && di < 1 - 0.5 * LINE_WIDTH &&
 					0 <= j && j < Igra.N && 
