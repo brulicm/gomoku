@@ -44,7 +44,7 @@ public class Igra {
 	
 	private Polje[][] plosca;
 	public Igralec naPotezi;
-	public LinkedList<Tuple<Igralec, Koordinati>> odigranePoteze;
+	public LinkedList<Koordinati> odigranePoteze;
 	
 	/**
 	 * Konstruktor
@@ -54,15 +54,15 @@ public class Igra {
 		this.plosca = new Polje[N][N];
 		for (int i = 0; i < N; ++i) {
 			for (int j = 0; j < N; ++j) {
-				plosca[i][j] = Polje.EMPTY;
+				this.plosca[i][j] = Polje.EMPTY;
 			}
 		}
 		this.naPotezi = Igralec.WHITE;
-		this.odigranePoteze = new LinkedList<Tuple<Igralec, Koordinati>>();
+		this.odigranePoteze = new LinkedList<Koordinati>();
 	}
 	
-	public Polje[][] getPlosca () {
-		return plosca;
+	public Polje[][] getPlosca() {
+		return this.plosca;
 	}
 	
 	/**
@@ -70,7 +70,6 @@ public class Igra {
 	 * @return seznam Koordinat
 	 */
 	public List<Koordinati> moznePoteze() {
-		// Spremenljivko, ki jo fukncija vrne, ponavadi poimenujem rtr, če se ne spomnem boljšega imena.
 		List<Koordinati> rtr = new LinkedList<Koordinati>();
 		
 		for (int i = 0; i < N; ++i) {
@@ -156,7 +155,7 @@ public class Igra {
 			// Ustrezno zapolnimo polje na plošči na koordinatah koor.
 			this.plosca[koordinati.getX()][koordinati.getY()] = this.naPotezi.getPolje();
 			// Potezo (par) dodamo v odigranePoteze.
-			this.odigranePoteze.add(new Tuple<Igralec, Koordinati>(this.naPotezi, koordinati));
+			this.odigranePoteze.add(koordinati);
 			// Spremenimo igralca, ki je na potezi.
 			this.naPotezi = this.naPotezi.nasprotnik();
 			
@@ -175,9 +174,9 @@ public class Igra {
 		// if (lahko razveljavimo potezo)
 		if (this.odigranePoteze.size() >= 1) {
 			// Odstranimo zadnjo potezo in jo shranimo v spremenljivko.
-			Tuple<Igralec, Koordinati> zadnjaPoteza = this.odigranePoteze.removeLast();
+			Koordinati zadnjaPoteza = this.odigranePoteze.removeLast();
 			// Ustrezno polje na plošči nastavimo na EMPTY.
-			this.plosca[zadnjaPoteza.snd.getX()][zadnjaPoteza.snd.getY()] = Polje.EMPTY;
+			this.plosca[zadnjaPoteza.getX()][zadnjaPoteza.getY()] = Polje.EMPTY;
 			// Popravimo igralca na potezi.
 			this.naPotezi = this.naPotezi.nasprotnik();
 			

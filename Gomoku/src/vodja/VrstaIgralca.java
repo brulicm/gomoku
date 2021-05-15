@@ -1,13 +1,15 @@
 package vodja;
 
 public enum VrstaIgralca {
-	R, C; 
+	
+	HUMAN,
+	COMP; // computer
 
 	@Override
 	public String toString() {
 		switch (this) {
-		case C: return "Èlovek";
-		case R: return "Raèunalnik";
+		case HUMAN: return "Älovek";
+		case COMP: return "raÄunalnik";
 		default: assert false; return "";
 		}
 	}
