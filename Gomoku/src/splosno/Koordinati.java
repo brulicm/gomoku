@@ -1,7 +1,7 @@
 package splosno;
 
 public class Koordinati {
-	
+
 	private int x;
 	private int y;
 	
@@ -9,15 +9,15 @@ public class Koordinati {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	public int getX() { 
 		return this.x; 
 	}
-	
+
 	public int getY() {
 		return this.y;
 	}
-	
+
 	/**
 	 * @return Koordinate [x= , y= ]
 	 */
