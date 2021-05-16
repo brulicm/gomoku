@@ -11,5 +11,5 @@ public class Gomoku {
 		Vodja.okno = glavno_okno;
 		
 	}
-
+	
 }
