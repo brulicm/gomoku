@@ -23,7 +23,7 @@ public class Vodja {
 	
 	public static int zakasnitev = 1; // Premor pred vsako računalnikovo potezo.
 	
-	public static Inteligenca racunalnikovaInteligenca = new Inteligenca("smiselno uredi ime");
+	public static Inteligenca racunalnikovaInteligenca = new Inteligenca("inteligenca");
 	
 	public static void igramoNovoIgro() {
 		igra = new Igra();

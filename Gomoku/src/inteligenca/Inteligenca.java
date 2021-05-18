@@ -16,12 +16,21 @@ public class Inteligenca extends splosno.KdoIgra {
 	
 	public Inteligenca(String ime) {
 		super(ime);
-		this.globina = 6;
+		this.globina = 6; // hitri minimax: 6
 	}
 	
 	public Koordinati izberiPotezo (Igra igra) {
+		// Nastavimo ustrezno ime inteligenci.
+		switch (Igra.algoritem) {
+		case NEUMNI: this.ime = "naključni računalnik"; break;
+		case MINIMAX: this.ime = "minimax"; break;
+		case RANDOM_MINIMAX: this.ime = "naključni minimax"; break;
+		case MINIMAX_ALPHA_BETA: this.ime = "minimax alpha-beta"; break;
+		case HITRI_MINIMAX: this.ime = "hitri minimax"; break;
+		}
+		
 		// Če ima računalnik prvo potezo, jo izbere kar naključno.
-		if (igra.moznePoteze().size() == Igra.N * Igra.N) return neumniRacunalnik(igra);
+		if (igra.odigranePoteze.size() == 0) return neumniRacunalnik(igra);
 		
 		Koordinati poteza = null;
 		
@@ -32,11 +41,13 @@ public class Inteligenca extends splosno.KdoIgra {
 		
 		// Minimax.
 		else if (Igra.algoritem == Algoritem.MINIMAX) {
+			this.globina = 2;
 			poteza = minimax(igra, this.globina, igra.naPotezi).poteza;
 		}
 		
 		// Random minimax.
 		else if (Igra.algoritem == Algoritem.RANDOM_MINIMAX) {
+			this.globina = 2;
 			List<OcenjenaPoteza> ocenjenePoteze = randomMinimax(igra, this.globina);
 			int i = RANDOM.nextInt(ocenjenePoteze.size());	
 			poteza = ocenjenePoteze.get(i).poteza;
@@ -44,11 +55,13 @@ public class Inteligenca extends splosno.KdoIgra {
 		
 		// Alpha-Beta prunning na algoritmu Minimax.
 		else if (Igra.algoritem == Algoritem.MINIMAX_ALPHA_BETA) {
+			this.globina = 2;
 			poteza = alphaBeta(igra, this.globina, OceniPozicijo.L, OceniPozicijo.W, igra.naPotezi).poteza;
 		}
 		
 		// Hitri minimax.
 		else if (Igra.algoritem == Algoritem.HITRI_MINIMAX) {
+			this.globina = 6;
 			poteza = hitriMinimax(igra, this.globina, igra.naPotezi).poteza;
 		}
 		

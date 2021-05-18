@@ -44,7 +44,6 @@ public class Okno extends JFrame implements ActionListener {
 	private JMenu menuVelikostIgre;
 	private JMenu menuAlgoritem;
 	
-	private JMenuItem menuZakasnitevPoteze;
 	private JMenuItem velikost15;
 	private JMenuItem velikost19;
 	private JMenuItem algoritemNeumni;
@@ -52,6 +51,8 @@ public class Okno extends JFrame implements ActionListener {
 	private JMenuItem algoritemRandomMinimax;
 	private JMenuItem algoritemMinimaxAlphaBeta;
 	private JMenuItem algoritemHitriMinimax;
+	private JMenuItem menuZakasnitevPoteze;
+	private JMenuItem razveljaviPotezo;
 
 	/**
 	 * Ustvari novo okno in začne igrati igro.
@@ -86,6 +87,8 @@ public class Okno extends JFrame implements ActionListener {
 		this.algoritemHitriMinimax = dodajMenuItem(menuAlgoritem, "Hitri minimax (default)");
 		
 		this.menuZakasnitevPoteze = dodajMenuItem(menuNastavitve, "Zakasnitev računalnikove poteze...");
+		
+		this.razveljaviPotezo = dodajMenuItem(menuNastavitve, "Razveljavi zadnjo potezo!");
 		
 		// Igralna plošča
 		this.platno = new Platno();
@@ -135,35 +138,35 @@ public class Okno extends JFrame implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == igraClovekRacunalnik) {
+		if (e.getSource() == this.igraClovekRacunalnik) {
 			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
 			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.HUMAN); 
 			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.COMP);
 			Vodja.igramoNovoIgro();
 		}
 		
-		else if (e.getSource() == igraRacunalnikClovek) {
+		else if (e.getSource() == this.igraRacunalnikClovek) {
 			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
 			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.COMP); 
 			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.HUMAN);
 			Vodja.igramoNovoIgro();
 		}
 		
-		else if (e.getSource() == igraClovekClovek) {
+		else if (e.getSource() == this.igraClovekClovek) {
 			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
 			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.HUMAN); 
 			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.HUMAN);
 			Vodja.igramoNovoIgro();
 		}
 		
-		else if (e.getSource() == igraRacunalnikRacunalnik) {
+		else if (e.getSource() == this.igraRacunalnikRacunalnik) {
 			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
 			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.COMP); 
 			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.COMP);
 			Vodja.igramoNovoIgro();
 		}
 		
-		else if (e.getSource() == velikost15) {
+		else if (e.getSource() == this.velikost15) {
 			if (Vodja.igra == null) {
 				Igra.N = 15;
 				this.status.setText("Velikost nastavljena. Izberite željeno igro!");
@@ -177,7 +180,7 @@ public class Okno extends JFrame implements ActionListener {
 			this.platno.repaint();
 		}
 		
-		else if (e.getSource() == velikost19) {
+		else if (e.getSource() == this.velikost19) {
 			if (Vodja.igra == null) {
 				Igra.N = 19;
 				this.status.setText("Velikost nastavljena. Izberite željeno igro!");
@@ -191,7 +194,7 @@ public class Okno extends JFrame implements ActionListener {
 			this.platno.repaint();
 		}
 		
-		else if (e.getSource() == algoritemNeumni) {
+		else if (e.getSource() == this.algoritemNeumni) {
 			if (Vodja.igra == null) {
 				Igra.algoritem = Algoritem.NEUMNI;
 				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
@@ -206,7 +209,7 @@ public class Okno extends JFrame implements ActionListener {
 			this.platno.repaint();
 		}
 		
-		else if (e.getSource() == algoritemMinimax) {
+		else if (e.getSource() == this.algoritemMinimax) {
 			if (Vodja.igra == null) {
 				Igra.algoritem = Algoritem.MINIMAX;
 				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
@@ -221,7 +224,7 @@ public class Okno extends JFrame implements ActionListener {
 			this.platno.repaint();
 		}
 		
-		else if (e.getSource() == algoritemRandomMinimax) {
+		else if (e.getSource() == this.algoritemRandomMinimax) {
 			if (Vodja.igra == null) {
 				Igra.algoritem = Algoritem.RANDOM_MINIMAX;
 				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
@@ -236,7 +239,7 @@ public class Okno extends JFrame implements ActionListener {
 			this.platno.repaint();
 		}
 		
-		else if (e.getSource() == algoritemMinimaxAlphaBeta) {
+		else if (e.getSource() == this.algoritemMinimaxAlphaBeta) {
 			if (Vodja.igra == null) {
 				Igra.algoritem = Algoritem.MINIMAX_ALPHA_BETA;
 				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
@@ -251,7 +254,7 @@ public class Okno extends JFrame implements ActionListener {
 			this.platno.repaint();
 		}
 		
-		else if (e.getSource() == algoritemHitriMinimax) {
+		else if (e.getSource() == this.algoritemHitriMinimax) {
 			if (Vodja.igra == null) {
 				Igra.algoritem = Algoritem.HITRI_MINIMAX;
 				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
@@ -266,7 +269,7 @@ public class Okno extends JFrame implements ActionListener {
 			this.platno.repaint();
 		}
 		
-		else if (e.getSource() == menuZakasnitevPoteze) {
+		else if (e.getSource() == this.menuZakasnitevPoteze) {
 			JTextField field = new JTextField();
 			JComponent[] lab = {new JLabel("Vnesi zakasnitev poteze (default: 1s):"), field};
 			int izbira = JOptionPane.showConfirmDialog(this, lab, "Input", JOptionPane.OK_CANCEL_OPTION);
@@ -278,6 +281,40 @@ public class Okno extends JFrame implements ActionListener {
 			
 			this.platno.repaint();
 		}
+		
+		else if (e.getSource() == this.razveljaviPotezo) {
+			boolean bool1 = false;
+			boolean bool2 = false;
+			
+			if (Vodja.igra == null) {
+				this.status.setText("Najprej izberite željeno igro!");
+			} else if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.COMP
+					&& Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.COMP) {
+				this.status.setText("Ko igrata računalnika, potez ne morete razveljaviti");
+			} else if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.HUMAN
+					&& Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.HUMAN) {
+				bool1 = Vodja.igra.razveljaviPotezo();
+				if (bool1) this.status.setText("Poteza uspešno razveljavljena. " + this.status.getText());
+				else this.status.setText("Poteza ni bila razveljavljena. " + this.status.getText());
+			} else if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.COMP
+					&& Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.HUMAN
+					&& Vodja.igra.naPotezi == Igralec.BLACK) {
+				bool1 = Vodja.igra.razveljaviPotezo();
+				bool2 = Vodja.igra.razveljaviPotezo();
+				if (bool1 && bool2) this.status.setText("Potezi razveljavljeni. " + this.status.getText());
+				else this.status.setText("Potezi nista bili razveljavljeni. " + this.status.getText());
+			} else if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.HUMAN
+					&& Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.COMP
+					&& Vodja.igra.naPotezi == Igralec.WHITE) {
+				bool1 = Vodja.igra.razveljaviPotezo();
+				bool2 = Vodja.igra.razveljaviPotezo();
+				if (bool1 && bool2) this.status.setText("Potezi razveljavljeni. " + this.status.getText());
+				else this.status.setText("Potezi nista bili razveljavljeni. " + this.status.getText());
+			}
+			
+			this.osveziGUI();
+			this.platno.repaint();
+		}
 	}
 
 	public void osveziGUI() {
@@ -287,21 +324,35 @@ public class Okno extends JFrame implements ActionListener {
 			switch(Vodja.igra.stanjeIgre()) {
 			case NEODLOCENO: status.setText("Neodločeno!"); break;
 			case V_TEKU:
-				if (Vodja.igra.naPotezi == Igralec.WHITE) {
-					status.setText("Na potezi je beli - " + Vodja.vrstaIgralca.get(Igralec.WHITE));
+				if (Vodja.igra.naPotezi == Igralec.WHITE && Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.HUMAN) {
+					status.setText("Na potezi je beli - človek.");
+					break;
+				} else if (Vodja.igra.naPotezi == Igralec.WHITE) {
+					status.setText("Na potezi je beli - " + Vodja.racunalnikovaInteligenca.ime() + ".");
+					break;
+				} else if (Vodja.igra.naPotezi == Igralec.BLACK && Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.HUMAN) {
+					status.setText("Na potezi je črni - človek.");
 					break;
 				} else {
-					status.setText("Na potezi je črni - " + Vodja.vrstaIgralca.get(Igralec.BLACK));
+					status.setText("Na potezi je črni - " + Vodja.racunalnikovaInteligenca.ime() + ".");
 					break;
 				}
 			case ZMAGA_WHITE:
-				status.setText("Zmagal je beli - " +
-						Vodja.vrstaIgralca.get(Igralec.WHITE));
-				break;
+				if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.HUMAN) {
+					status.setText("Zmagal je beli - človek. ");
+					break;
+				} else {
+					status.setText("Zmagal je beli - " + Vodja.racunalnikovaInteligenca.ime() + ".");
+					break;
+				}
 			case ZMAGA_BLACK:
-				status.setText("Zmagal je črni - " +
-						Vodja.vrstaIgralca.get(Igralec.BLACK));
-				break;
+				if (Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.HUMAN) {
+					status.setText("Zmagal je črni - človek");
+					break;
+				} else {
+					status.setText("Zmagal je črni - " + Vodja.racunalnikovaInteligenca.ime() + ".");
+					break;
+				}
 			}
 		}
 		
