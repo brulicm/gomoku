@@ -3,6 +3,7 @@ package inteligenca;
 import java.util.List;
 import java.util.Random;
 
+import logika.Algoritem;
 import logika.Igra;
 import logika.Igralec;
 import splosno.Koordinati;
@@ -19,34 +20,35 @@ public class Inteligenca extends splosno.KdoIgra {
 	}
 	
 	public Koordinati izberiPotezo (Igra igra) {
+		// Če ima računalnik prvo potezo, jo izbere kar naključno.
+		if (igra.moznePoteze().size() == Igra.N * Igra.N) return neumniRacunalnik(igra);
+		
 		Koordinati poteza = null;
 		
-		int choice = 4;
-		
 		// Neumni igralec.
-		if (choice == 0) {
+		if (Igra.algoritem == Algoritem.NEUMNI) {
 			poteza = neumniRacunalnik(igra);
 		}
 		
 		// Minimax.
-		else if (choice == 1) {
+		else if (Igra.algoritem == Algoritem.MINIMAX) {
 			poteza = minimax(igra, this.globina, igra.naPotezi).poteza;
 		}
 		
 		// Random minimax.
-		else if (choice == 2) {
+		else if (Igra.algoritem == Algoritem.RANDOM_MINIMAX) {
 			List<OcenjenaPoteza> ocenjenePoteze = randomMinimax(igra, this.globina);
 			int i = RANDOM.nextInt(ocenjenePoteze.size());	
 			poteza = ocenjenePoteze.get(i).poteza;
 		}
 		
 		// Alpha-Beta prunning na algoritmu Minimax.
-		else if (choice == 3) {
+		else if (Igra.algoritem == Algoritem.MINIMAX_ALPHA_BETA) {
 			poteza = alphaBeta(igra, this.globina, OceniPozicijo.L, OceniPozicijo.W, igra.naPotezi).poteza;
 		}
 		
 		// Hitri minimax.
-		else if (choice == 4) {
+		else if (Igra.algoritem == Algoritem.HITRI_MINIMAX) {
 			poteza = hitriMinimax(igra, this.globina, igra.naPotezi).poteza;
 		}
 		

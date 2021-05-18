@@ -1,12 +1,9 @@
 package inteligenca;
 
-import java.util.List;
-
 import logika.Igra;
 import logika.Igralec;
 import logika.Polje;
 import logika.Vrstica;
-import splosno.Koordinati;
 
 public class OceniPozicijo {
 	
@@ -27,11 +24,9 @@ public class OceniPozicijo {
 				ocena += oceniVrsto5(v, igra, jaz);
 			}
 			
-			/*
-			for (Vrstica v : Igra.VRSTICE_6) {
-				ocena += oceniVrsto6(v, igra, jaz);
-			}
-			*/
+//			for (Vrstica v : Igra.VRSTICE_6) {
+//				ocena += oceniVrsto6(v, igra, jaz);
+//			}
 			
 			return ocena;
 		}
@@ -68,37 +63,35 @@ public class OceniPozicijo {
 		else return countBLACK - countWHITE; // (jaz == Igralec.BLACK)
 	}
 	
-	/*
 	// Oceni vrsto dolžine 6.
 	// Vrne visoko oceno le, če imamo vrstico oblike [E, B/W, B/W, B/W, B/W, E], sicer 0.
-	public static int oceniVrsto6(Vrstica v, Igra igra, Igralec jaz) {
-		Polje[][] plosca = igra.getPlosca();
-		
-		if (plosca[v.x[0]][v.y[0]] != Polje.EMPTY || plosca[v.x[5]][v.y[5]] != Polje.EMPTY) return 0;
-		
-		int countWHITE = 0;
-		int countBLACK = 0;
-		
-		for (int k = 1; k < 5 && (countWHITE == 0 || countBLACK == 0); ++k) {
-			switch (plosca[v.x[k]][v.y[k]]) {
-			case WHITE: countWHITE += 1; break;
-			case BLACK: countBLACK += 1; break;
-			case EMPTY: return 0;
-			}
-		}
-		
-		if (countWHITE == 4) {
-			if (jaz == Igralec.WHITE) return W / 5000;
-			else if (jaz == Igralec.BLACK) return L / 500;
-			else assert false; return 0;
-		}
-		else if (countBLACK == 4) {
-			if (jaz == Igralec.BLACK) return W / 5000;
-			else if (jaz == Igralec.WHITE) return L / 500;
-			else assert false; return 0;
-		}
-		else return 0;
-	}
-	*/
+//	public static int oceniVrsto6(Vrstica v, Igra igra, Igralec jaz) {
+//		Polje[][] plosca = igra.getPlosca();
+//		
+//		if (plosca[v.x[0]][v.y[0]] != Polje.EMPTY || plosca[v.x[5]][v.y[5]] != Polje.EMPTY) return 0;
+//		
+//		int countWHITE = 0;
+//		int countBLACK = 0;
+//		
+//		for (int k = 1; k < 5 && (countWHITE == 0 || countBLACK == 0); ++k) {
+//			switch (plosca[v.x[k]][v.y[k]]) {
+//			case WHITE: countWHITE += 1; break;
+//			case BLACK: countBLACK += 1; break;
+//			case EMPTY: return 0;
+//			}
+//		}
+//		
+//		if (countWHITE == 4) {
+//			if (jaz == Igralec.WHITE) return W / 5000;
+//			else if (jaz == Igralec.BLACK) return L / 500;
+//			else assert false; return 0;
+//		}
+//		else if (countBLACK == 4) {
+//			if (jaz == Igralec.BLACK) return W / 5000;
+//			else if (jaz == Igralec.WHITE) return L / 500;
+//			else assert false; return 0;
+//		}
+//		else return 0;
+//	}
 	
 }

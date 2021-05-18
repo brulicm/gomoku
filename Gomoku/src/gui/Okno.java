@@ -18,8 +18,10 @@ import javax.swing.JTextField;
 
 import vodja.Vodja;
 import vodja.VrstaIgralca;
+import logika.Algoritem;
 import logika.Igra;
 import logika.Igralec;
+import logika.Stanje;
 
 
 /**
@@ -42,11 +44,14 @@ public class Okno extends JFrame implements ActionListener {
 	private JMenu menuVelikostIgre;
 	private JMenu menuAlgoritem;
 	
-	private JMenuItem menuCasPoteze;
+	private JMenuItem menuZakasnitevPoteze;
 	private JMenuItem velikost15;
 	private JMenuItem velikost19;
+	private JMenuItem algoritemNeumni;
 	private JMenuItem algoritemMinimax;
-	private JMenuItem algoritemAlfaBeta;
+	private JMenuItem algoritemRandomMinimax;
+	private JMenuItem algoritemMinimaxAlphaBeta;
+	private JMenuItem algoritemHitriMinimax;
 
 	/**
 	 * Ustvari novo okno in začne igrati igro.
@@ -70,14 +75,17 @@ public class Okno extends JFrame implements ActionListener {
 		this.igraRacunalnikRacunalnik = dodajMenuItem(menuIgra, "Računalnik - računalnik");
 		
 		this.menuVelikostIgre = dodajPodmenu(menuNastavitve, "Velikost plošče...");
-		this.velikost15 = dodajMenuItem(menuVelikostIgre, "15x15");
+		this.velikost15 = dodajMenuItem(menuVelikostIgre, "15x15 (default)");
 		this.velikost19 = dodajMenuItem(menuVelikostIgre, "19x19");
 		
-		this.menuAlgoritem = dodajPodmenu(menuNastavitve, "Algoritem...");
+		this.menuAlgoritem = dodajPodmenu(menuNastavitve, "Inteligenca...");
+		this.algoritemNeumni = dodajMenuItem(menuAlgoritem, "Naključne poteze");
 		this.algoritemMinimax = dodajMenuItem(menuAlgoritem, "Minimax");
-		this.algoritemAlfaBeta = dodajMenuItem(menuAlgoritem, "AlfaBeta");
+		this.algoritemRandomMinimax = dodajMenuItem(menuAlgoritem, "Naključni minimax");
+		this.algoritemMinimaxAlphaBeta = dodajMenuItem(menuAlgoritem, "Minimax + AlphaBeta");
+		this.algoritemHitriMinimax = dodajMenuItem(menuAlgoritem, "Hitri minimax (default)");
 		
-		this.menuCasPoteze = dodajMenuItem(menuNastavitve, "Zakasnitev računalnikove poteze...");
+		this.menuZakasnitevPoteze = dodajMenuItem(menuNastavitve, "Zakasnitev računalnikove poteze...");
 		
 		// Igralna plošča
 		this.platno = new Platno();
@@ -93,14 +101,14 @@ public class Okno extends JFrame implements ActionListener {
 		// Statusna vrstica za sporočila
 		this.status = new JLabel();
 		this.status.setFont(new Font(this.status.getFont().getName(),
-							    this.status.getFont().getStyle(), 20));
+							    this.status.getFont().getStyle(), 16));
 		GridBagConstraints status_layout = new GridBagConstraints();
 		status_layout.gridx = 0;
 		status_layout.gridy = 1;
 		status_layout.anchor = GridBagConstraints.CENTER;
 		getContentPane().add(status, status_layout);
 		
-		status.setText("Izberite željeno igro!");
+		this.status.setText("Izberite željeno igro!");
 	}
 	
 	// Pomožna metoda za kontruiranje menuja
@@ -132,41 +140,146 @@ public class Okno extends JFrame implements ActionListener {
 			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.HUMAN); 
 			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.COMP);
 			Vodja.igramoNovoIgro();
-		} else if (e.getSource() == igraRacunalnikClovek) {
+		}
+		
+		else if (e.getSource() == igraRacunalnikClovek) {
 			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
 			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.COMP); 
 			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.HUMAN);
 			Vodja.igramoNovoIgro();
-		} else if (e.getSource() == igraClovekClovek) {
+		}
+		
+		else if (e.getSource() == igraClovekClovek) {
 			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
 			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.HUMAN); 
 			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.HUMAN);
 			Vodja.igramoNovoIgro();
-		} else if (e.getSource() == igraRacunalnikRacunalnik) {
+		}
+		
+		else if (e.getSource() == igraRacunalnikRacunalnik) {
 			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
 			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.COMP); 
 			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.COMP);
 			Vodja.igramoNovoIgro();
-		} else if (e.getSource() == velikost15) {
-			if (Vodja.igra != null) status.setText("Igra je že v teku. Ne morete je več spreminjati.");
-			else Igra.N = 15;
-		} else if (e.getSource() == velikost19) {
-			if (Vodja.igra != null) status.setText("Igra je že v teku. Ne morete je več spreminjati.");
-			else Igra.N = 19;
-		} else if (e.getSource() == menuCasPoteze) {
-			JTextField field = new JTextField();
-			JComponent[] lab = {new JLabel("Vnesi zakasnitev poteze:"), field};
-			int izbira = JOptionPane.showConfirmDialog(this, lab, "Input", JOptionPane.OK_CANCEL_OPTION);
-			String casPoteze = field.getText();
-			if (izbira == JOptionPane.OK_OPTION && casPoteze.matches("\\d+")) {
-				Vodja.zakasnitev = Integer.valueOf(casPoteze);
-			};
-			
 		}
-		else if (e.getSource() == algoritemAlfaBeta) {} // TODO
-		else if (e.getSource() == algoritemMinimax) {} // TODO
+		
+		else if (e.getSource() == velikost15) {
+			if (Vodja.igra == null) {
+				Igra.N = 15;
+				this.status.setText("Velikost nastavljena. Izberite željeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.N = 15;
+				this.status.setText("Velikost nastavljena. Izberite željeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, velikosti ne morete spreminjati.");
+			this.platno.repaint();
+		}
+		
+		else if (e.getSource() == velikost19) {
+			if (Vodja.igra == null) {
+				Igra.N = 19;
+				this.status.setText("Velikost nastavljena. Izberite željeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.N = 19;
+				this.status.setText("Velikost nastavljena. Izberite željeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, velikosti ne morete spreminjati.");
+			this.platno.repaint();
+		}
+		
+		else if (e.getSource() == algoritemNeumni) {
+			if (Vodja.igra == null) {
+				Igra.algoritem = Algoritem.NEUMNI;
+				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.algoritem = Algoritem.NEUMNI;
+				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
+			
+			this.platno.repaint();
+		}
+		
+		else if (e.getSource() == algoritemMinimax) {
+			if (Vodja.igra == null) {
+				Igra.algoritem = Algoritem.MINIMAX;
+				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.algoritem = Algoritem.MINIMAX;
+				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
+			
+			this.platno.repaint();
+		}
+		
+		else if (e.getSource() == algoritemRandomMinimax) {
+			if (Vodja.igra == null) {
+				Igra.algoritem = Algoritem.RANDOM_MINIMAX;
+				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.algoritem = Algoritem.RANDOM_MINIMAX;
+				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
+			
+			this.platno.repaint();
+		}
+		
+		else if (e.getSource() == algoritemMinimaxAlphaBeta) {
+			if (Vodja.igra == null) {
+				Igra.algoritem = Algoritem.MINIMAX_ALPHA_BETA;
+				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.algoritem = Algoritem.MINIMAX_ALPHA_BETA;
+				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
+			
+			this.platno.repaint();
+		}
+		
+		else if (e.getSource() == algoritemHitriMinimax) {
+			if (Vodja.igra == null) {
+				Igra.algoritem = Algoritem.HITRI_MINIMAX;
+				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.algoritem = Algoritem.HITRI_MINIMAX;
+				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
+			
+			this.platno.repaint();
+		}
+		
+		else if (e.getSource() == menuZakasnitevPoteze) {
+			JTextField field = new JTextField();
+			JComponent[] lab = {new JLabel("Vnesi zakasnitev poteze (default: 1s):"), field};
+			int izbira = JOptionPane.showConfirmDialog(this, lab, "Input", JOptionPane.OK_CANCEL_OPTION);
+			String zakasnitevPoteze = field.getText();
+			if (izbira == JOptionPane.OK_OPTION && zakasnitevPoteze.matches("\\d+")) {
+				Vodja.zakasnitev = Integer.valueOf(zakasnitevPoteze);
+				this.status.setText("Zakasnitev uspešno spremenjena. " + this.status.getText());
+			} else this.status.setText("Prosimo vnesite nenegativno celo število.");
+			
+			this.platno.repaint();
+		}
 	}
-	
+
 	public void osveziGUI() {
 		if (Vodja.igra == null) {
 			status.setText("Izberite željeno igro!");

@@ -9,6 +9,7 @@ public class Igra {
 	
 	// Velikost igralne plošče N x N.
 	public static int N = 15; // ali 19
+	public static Algoritem algoritem = Algoritem.HITRI_MINIMAX;
 	// Seznam vseh možnih vrstic dolžine 5 na plošči.
 	public static final List<Vrstica> VRSTICE = new LinkedList<Vrstica>();
 	public static final List<Vrstica> VRSTICE_6 = new LinkedList<Vrstica>();
@@ -83,7 +84,6 @@ public class Igra {
 				this.plosca[i][j] = Polje.EMPTY;
 			}
 		}
-		this.plosca[2][1] = Polje.BLACK; /////////////////////////////////////////////////////////
 		this.naPotezi = Igralec.WHITE;
 		this.odigranePoteze = new LinkedList<Koordinati>();
 	}
