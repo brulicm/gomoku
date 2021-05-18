@@ -69,6 +69,7 @@ public class Vodja {
 				if (executionTime < 1000*zakasnitev) {
 					try {TimeUnit.MILLISECONDS.sleep(1000*zakasnitev - executionTime);} catch (Exception e) {};
 				}
+				System.out.println("" + executionTime);
 				
 				return poteza;
 			}

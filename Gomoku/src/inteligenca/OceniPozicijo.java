@@ -1,9 +1,12 @@
 package inteligenca;
 
+import java.util.List;
+
 import logika.Igra;
 import logika.Igralec;
 import logika.Polje;
 import logika.Vrstica;
+import splosno.Koordinati;
 
 public class OceniPozicijo {
 	
@@ -13,20 +16,27 @@ public class OceniPozicijo {
 	
 	// Metoda je klicana le, ko je igra še V_TEKU.
 	public static int oceniPozicijo(Igra igra, Igralec jaz) {
-		int ocena = 0;
-		
-		for (Vrstica v : Igra.VRSTICE) {
-			ocena += oceniVrsto5(v, igra, jaz);
+		switch (igra.stanjeIgre()) {
+		case ZMAGA_WHITE: return (jaz == Igralec.WHITE ? W : L);
+		case ZMAGA_BLACK: return (jaz == Igralec.BLACK ? W : L);
+		case NEODLOCENO: return TIE;
+		default:
+			int ocena = 0;
+			
+			for (Vrstica v : Igra.VRSTICE) {
+				ocena += oceniVrsto5(v, igra, jaz);
+			}
+			
+			/*
+			for (Vrstica v : Igra.VRSTICE_6) {
+				ocena += oceniVrsto6(v, igra, jaz);
+			}
+			*/
+			
+			return ocena;
 		}
-		
-		for (Vrstica v : Igra.VRSTICE_6) {
-			ocena += oceniVrsto6(v, igra, jaz);
-		}
-		
-		return ocena;	
 	}
 	
-	// Metoda je klicana le, ko je igra še V_TEKU.
 	public static int oceniVrsto5(Vrstica v, Igra igra, Igralec jaz) {
 		Polje[][] plosca = igra.getPlosca();
 		
@@ -42,19 +52,24 @@ public class OceniPozicijo {
 		}
 		
 		if (countWHITE > 0 && countBLACK > 0) return 0;
-		else if (countWHITE == 4 && jaz == Igralec.WHITE) return W / 100;
-		else if (countWHITE == 4 && jaz == Igralec.BLACK) return L / 50;
-		else if (countBLACK == 4 && jaz == Igralec.BLACK) return W / 100;
-		else if (countBLACK == 4 && jaz == Igralec.WHITE) return L / 50;
-		else if (countWHITE == 3 && jaz == Igralec.WHITE) return W / 1000;
+		else if (countWHITE == 4 && jaz == Igralec.WHITE) return W / 50;
+		else if (countWHITE == 4 && jaz == Igralec.BLACK) return L / 5;
+		else if (countBLACK == 4 && jaz == Igralec.BLACK) return W / 50;
+		else if (countBLACK == 4 && jaz == Igralec.WHITE) return L / 5;
+		else if (countWHITE == 3 && jaz == Igralec.WHITE) return W / 5000;
 		else if (countWHITE == 3 && jaz == Igralec.BLACK) return L / 500;
-		else if (countBLACK == 3 && jaz == Igralec.BLACK) return W / 1000;
+		else if (countBLACK == 3 && jaz == Igralec.BLACK) return W / 5000;
 		else if (countBLACK == 3 && jaz == Igralec.WHITE) return L / 500;
+		else if (countWHITE == 2 && jaz == Igralec.WHITE) return W / 500000;
+		else if (countWHITE == 2 && jaz == Igralec.BLACK) return L / 50000;
+		else if (countBLACK == 2 && jaz == Igralec.BLACK) return W / 500000;
+		else if (countBLACK == 2 && jaz == Igralec.WHITE) return L / 50000;
 		else if (jaz == Igralec.WHITE) return countWHITE - countBLACK;
-		else return countBLACK - countWHITE; // jaz == Igralec.BLACK
+		else return countBLACK - countWHITE; // (jaz == Igralec.BLACK)
 	}
 	
-	// Metoda je klicana le, ko je igra še V_TEKU.
+	/*
+	// Oceni vrsto dolžine 6.
 	// Vrne visoko oceno le, če imamo vrstico oblike [E, B/W, B/W, B/W, B/W, E], sicer 0.
 	public static int oceniVrsto6(Vrstica v, Igra igra, Igralec jaz) {
 		Polje[][] plosca = igra.getPlosca();
@@ -73,16 +88,17 @@ public class OceniPozicijo {
 		}
 		
 		if (countWHITE == 4) {
-			if (jaz == Igralec.WHITE) return W / 10;
-			else if (jaz == Igralec.BLACK) return L / 5;
+			if (jaz == Igralec.WHITE) return W / 5000;
+			else if (jaz == Igralec.BLACK) return L / 500;
 			else assert false; return 0;
 		}
 		else if (countBLACK == 4) {
-			if (jaz == Igralec.BLACK) return W / 10;
-			else if (jaz == Igralec.WHITE) return L / 5;
+			if (jaz == Igralec.BLACK) return W / 5000;
+			else if (jaz == Igralec.WHITE) return L / 500;
 			else assert false; return 0;
 		}
 		else return 0;
 	}
+	*/
 	
 }

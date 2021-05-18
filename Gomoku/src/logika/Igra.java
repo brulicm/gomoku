@@ -83,6 +83,7 @@ public class Igra {
 				this.plosca[i][j] = Polje.EMPTY;
 			}
 		}
+		this.plosca[2][1] = Polje.BLACK; /////////////////////////////////////////////////////////
 		this.naPotezi = Igralec.WHITE;
 		this.odigranePoteze = new LinkedList<Koordinati>();
 	}
