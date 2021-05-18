@@ -148,14 +148,10 @@ public class Okno extends JFrame implements ActionListener {
 			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.COMP);
 			Vodja.igramoNovoIgro();
 		} else if (e.getSource() == velikost15) {
-			if (Vodja.igra != null) {
-			status.setText("Igra je še v teku. Ne morete je več spreminjati.");
-			}
+			if (Vodja.igra != null) status.setText("Igra je že v teku. Ne morete je več spreminjati.");
 			else Igra.N = 15;
 		} else if (e.getSource() == velikost19) {
-			if (Vodja.igra != null) {
-			status.setText("Igra je še v teku. Ne morete je več spreminjati.");
-			}
+			if (Vodja.igra != null) status.setText("Igra je že v teku. Ne morete je več spreminjati.");
 			else Igra.N = 19;
 		} else if (e.getSource() == menuCasPoteze) {
 			JTextField field = new JTextField();

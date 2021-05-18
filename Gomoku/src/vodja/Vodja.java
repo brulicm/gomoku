@@ -1,26 +1,27 @@
 package vodja;
 
-import java.util.Random;
 import java.util.Map;
-import java.util.List;
 
 import javax.swing.SwingWorker;
 import java.util.concurrent.TimeUnit;
 
 import gui.Okno;
+import inteligenca.Inteligenca;
 import logika.Igra;
 import logika.Igralec;
 import splosno.Koordinati;
 
 public class Vodja {	
 	
-	public static Map<Igralec,VrstaIgralca> vrstaIgralca;
+	public static Map<Igralec, VrstaIgralca> vrstaIgralca;
 	
 	public static Okno okno;
 	
 	public static Igra igra = null;
 	
 	public static boolean clovekNaVrsti = false;
+	
+	public static int zakasnitev = 1; // Premor pred vsako računalnikovo potezo.
 	
 	public static void igramoNovoIgro() {
 		igra = new Igra();
@@ -49,20 +50,27 @@ public class Vodja {
 		}
 	}
 	
-	private static Random random = new Random();
-	
-	public static int zakasnitev = 1; // Premor pred vsako računalnikovo potezo.
+	public static Inteligenca racunalnikovaInteligenca = new Inteligenca("smiselno uredi ime");
 	
 	public static void igrajRacunalnikovoPotezo() {
 		Igra zacetnaIgra = igra;
+		
 		SwingWorker<Koordinati, Void> worker = new SwingWorker<Koordinati, Void>() {
 			
 			@Override
 			protected Koordinati doInBackground() {
-				try {TimeUnit.SECONDS.sleep(zakasnitev);} catch (Exception e) {};
-				List<Koordinati> moznePoteze = igra.moznePoteze();
-				int randomIndex = random.nextInt(moznePoteze.size());
-				return moznePoteze.get(randomIndex);
+				long startTime = System.nanoTime();
+				Koordinati poteza = racunalnikovaInteligenca.izberiPotezo(igra);
+				long endTime = System.nanoTime();
+				
+				long executionTime = (endTime - startTime) / 1000000; // milisekunde
+				
+				// Če je poteza krajša od (zakasnitev), zaspimo do skupnega časa (zakasnitev).
+				if (executionTime < 1000*zakasnitev) {
+					try {TimeUnit.MILLISECONDS.sleep(1000*zakasnitev - executionTime);} catch (Exception e) {};
+				}
+				
+				return poteza;
 			}
 			
 			@Override

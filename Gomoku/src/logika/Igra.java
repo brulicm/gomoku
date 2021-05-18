@@ -1,4 +1,5 @@
 package logika;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,15 +10,16 @@ public class Igra {
 	// Velikost igralne plošče N x N.
 	public static int N = 15; // ali 19
 	// Seznam vseh možnih vrstic dolžine 5 na plošči.
-	private static final List<Vrstica> VRSTICE = new LinkedList<Vrstica>();
+	public static final List<Vrstica> VRSTICE = new LinkedList<Vrstica>();
+	public static final List<Vrstica> VRSTICE_6 = new LinkedList<Vrstica>();
 	
 	// This is a static initialization block, "a static version of the constructor".
 	// Constructors are run when the class is instantiated.
 	// Static initialization blocks get run when the class gets loaded.
 	static {
-		// Med VRSTICE dodamo vse možne vrstice dolžine 5 na plošči (objekte razreda Vrstica).
 		int[][] smeri = {{1, 0}, {0, 1}, {1, 1}, {1, -1}};
 		
+		// Med VRSTICE dodamo vse možne vrstice dolžine 5 na plošči (objekte razreda Vrstica).
 		for (int x = 0; x < N; ++x) {
 			for (int y = 0; y < N; ++y) {
 				for (int[] smer : smeri) {
@@ -36,6 +38,30 @@ public class Igra {
 						}
 						
 						VRSTICE.add(new Vrstica(vrsticaX, vrsticaY));
+					}
+				}
+			}
+		}
+		
+		// Med VRSTICE dodamo vse možne vrstice dolžine 6 (za minimax oceno pozicije).
+		for (int x = 0; x < N; ++x) {
+			for (int y = 0; y < N; ++y) {
+				for (int[] smer : smeri) {
+					
+					int dx = smer[0];
+					int dy = smer[1];
+					
+					// if (cela vrstica znotraj tabele)
+					if ((0 <= x + 5 * dx) && (x + 5 * dx < N) && (0 <= y + 5 * dy) && (y + 5 * dy < N)) {
+						int[] vrsticaX = new int[6];
+						int[] vrsticaY = new int[6];
+						
+						for (int k = 0; k < 6; ++k) {
+							vrsticaX[k] = x + dx * k;
+							vrsticaY[k] = y + dy * k;
+						}
+						
+						VRSTICE_6.add(new Vrstica(vrsticaX, vrsticaY));
 					}
 				}
 			}
@@ -59,6 +85,23 @@ public class Igra {
 		}
 		this.naPotezi = Igralec.WHITE;
 		this.odigranePoteze = new LinkedList<Koordinati>();
+	}
+	
+	/**
+	 * Konstruktor za kopijo igre
+	 */
+	public Igra(Igra igra) {
+		this.plosca = new Polje[N][N];
+		for (int i = 0; i < N; ++i) {
+			for (int j = 0; j < N; ++j) {
+				this.plosca[i][j] = igra.plosca[i][j];
+			}
+		}
+		
+		this.naPotezi = igra.naPotezi;
+		
+		this.odigranePoteze = new LinkedList<Koordinati>();
+		for (Koordinati p : igra.odigranePoteze) this.odigranePoteze.add(p);
 	}
 	
 	public Polje[][] getPlosca() {
@@ -154,7 +197,7 @@ public class Igra {
 		if (this.plosca[koordinati.getX()][koordinati.getY()] == Polje.EMPTY) {
 			// Ustrezno zapolnimo polje na plošči na koordinatah koor.
 			this.plosca[koordinati.getX()][koordinati.getY()] = this.naPotezi.getPolje();
-			// Potezo (par) dodamo v odigranePoteze.
+			// Potezo dodamo v odigranePoteze.
 			this.odigranePoteze.add(koordinati);
 			// Spremenimo igralca, ki je na potezi.
 			this.naPotezi = this.naPotezi.nasprotnik();

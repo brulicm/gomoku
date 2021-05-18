@@ -13,5 +13,5 @@ public enum VrstaIgralca {
 		default: assert false; return "";
 		}
 	}
-
+	
 }

@@ -31,7 +31,7 @@ public class Platno extends JPanel implements MouseListener {
 
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(390, 390);
+		return new Dimension(391, 391);
 	}
 	
 	// Relativna širina črte
