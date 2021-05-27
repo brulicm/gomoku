@@ -312,7 +312,6 @@ public class Okno extends JFrame implements ActionListener {
 				else this.status.setText("Potezi nista bili razveljavljeni. " + this.status.getText());
 			}
 			
-			this.osveziGUI();
 			this.platno.repaint();
 		}
 	}

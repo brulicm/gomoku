@@ -216,14 +216,13 @@ public class Igra {
 	 */
 	public boolean razveljaviPotezo() {
 		// if (lahko razveljavimo potezo)
-		if (this.odigranePoteze.size() >= 1) {
+		if ((this.odigranePoteze.size() >= 1) && (this.stanjeIgre() == Stanje.V_TEKU)) {
 			// Odstranimo zadnjo potezo in jo shranimo v spremenljivko.
 			Koordinati zadnjaPoteza = this.odigranePoteze.removeLast();
 			// Ustrezno polje na plošči nastavimo na EMPTY.
 			this.plosca[zadnjaPoteza.getX()][zadnjaPoteza.getY()] = Polje.EMPTY;
 			// Popravimo igralca na potezi.
 			this.naPotezi = this.naPotezi.nasprotnik();
-			
 			return true;
 		}
 		
