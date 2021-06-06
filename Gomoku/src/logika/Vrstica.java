@@ -2,7 +2,7 @@ package logika;
 import java.util.Arrays;
 
 /**
- * Objekt predstavlja poljubno vrstico (dolÅ¾ine 5) na ploÅ¡Äi (navpiÄno, vodoravno, poÅ¡evno).
+ * Objekt predstavlja poljubno vrstico (doline 5) na plošèi (navpièno, vodoravno, poševno).
  */
 
 public class Vrstica {

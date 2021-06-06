@@ -3,7 +3,6 @@ package inteligenca;
 import java.util.List;
 import java.util.Random;
 
-import logika.Algoritem;
 import logika.Igra;
 import logika.Igralec;
 import splosno.Koordinati;
@@ -19,17 +18,23 @@ public class Inteligenca extends splosno.KdoIgra {
 		this.globina = 6; // hitri minimax: 6
 	}
 	
+	/**
+	 * Izbere raèunalnikovo potezo glede na izbran algoritem.
+	 * 
+	 * @param igra igra v kateri naj se metoda izvede
+	 * @return raèunalnikova poteza
+	 */
 	public Koordinati izberiPotezo (Igra igra) {
 		// Nastavimo ustrezno ime inteligenci.
 		switch (Igra.algoritem) {
-		case NEUMNI: this.ime = "nakljuÄni raÄunalnik"; break;
+		case NEUMNI: this.ime = "nakljuèni raèunalnik"; break;
 		case MINIMAX: this.ime = "minimax"; break;
-		case RANDOM_MINIMAX: this.ime = "nakljuÄni minimax"; break;
+		case RANDOM_MINIMAX: this.ime = "nakljuèni minimax"; break;
 		case MINIMAX_ALPHA_BETA: this.ime = "minimax alpha-beta"; break;
 		case HITRI_MINIMAX: this.ime = "hitri minimax"; break;
 		}
 		
-		// ÄŒe ima raÄunalnik prvo potezo, jo izbere kar nakljuÄno.
+		// Èe ima raèunalnik prvo potezo, jo izbere kar nakljuèno.
 		if (igra.odigranePoteze.size() == 0) return neumniRacunalnik(igra);
 		
 		Koordinati poteza = null;
@@ -69,14 +74,24 @@ public class Inteligenca extends splosno.KdoIgra {
 		return poteza;
 	}
 	
-	// Neumni igralec, izbere nakljuÄno potezo na ploÅ¡Äi.
+	/**
+	 *  Neumni igralec, izbere nakljuèno potezo na plošèi.
+	 * @param igra v kateri igri igramo
+	 * @return raèunalnikova poteza
+	 */
 	public Koordinati neumniRacunalnik(Igra igra) {
 		List<Koordinati> moznePoteze = igra.moznePoteze();
 		int randomIndex = RANDOM.nextInt(moznePoteze.size());
 		return moznePoteze.get(randomIndex);
 	}
 	
-	// Vrne prvo izmed najboljÅ¡ih potez z vidika igralca jaz (klasiÄni minimax algoritem).
+	/**
+	 *  Vrne prvo izmed najboljših potez z vidika igralca jaz (klasièni minimax algoritem).
+	 * @param igra 
+	 * @param globina 
+	 * @param jaz iz katere perspektive ocenjujemo
+	 * @return raèunalnikova poteza
+	 */
 	public OcenjenaPoteza minimax(Igra igra, int globina, Igralec jaz) {
 		OcenjenaPoteza najboljsaPoteza = null;
 		
@@ -107,7 +122,12 @@ public class Inteligenca extends splosno.KdoIgra {
 		return najboljsaPoteza;
 	}
 	
-	// Vrne seznam vseh najboljÅ¡ih potez z vidika igralca na potezi (random minimax algoritem).
+	/**
+	 *  Vrne seznam vseh najboljših potez z vidika igralca na potezi (random minimax algoritem).
+	 * @param igra
+	 * @param globina
+	 * @return seznam najboljših potez
+	 */
 	public static List<OcenjenaPoteza> randomMinimax(Igra igra, int globina) {
 		NajboljsePoteze najboljsePoteze = new NajboljsePoteze();
 		
@@ -132,11 +152,19 @@ public class Inteligenca extends splosno.KdoIgra {
 		return najboljsePoteze.list();
 	}
 	
-	// Vrne prvo izmed najboljÅ¡ih potez z vidika igralca jaz (klasiÄni minimax algoritem z alpha-beta obrezovanjem).
+	/**
+	 *  Vrne prvo izmed najboljših potez z vidika igralca jaz (klasièni minimax algoritem z alpha-beta obrezovanjem).
+	 * @param igra
+	 * @param globina
+	 * @param alpha
+	 * @param beta
+	 * @param jaz iz katere perspektive ocenjujemo
+	 * @return raèunalnikova poteza
+	 */
 	public static OcenjenaPoteza alphaBeta(Igra igra, int globina, int alpha, int beta, Igralec jaz) {
 		int ocena;
-		// RaÄunalnik zaÄne z zaÄetno oceno L, in jo nato maksimizira.
-		// Nasprotnik zaÄne z zaÄento oceno W, in jo nato minimizira.
+		// Raèunalnik zaène z zaèetno oceno L, in jo nato maksimizira.
+		// Nasprotnik zaène z zaèento oceno W, in jo nato minimizira.
 		if (igra.naPotezi == jaz) {ocena = OceniPozicijo.L;} else {ocena = OceniPozicijo.W;}
 		
 		List<Koordinati> moznePoteze = igra.moznePoteze();
@@ -171,14 +199,20 @@ public class Inteligenca extends splosno.KdoIgra {
 				}
 			}
 			
-			if (alpha >= beta) // Gremo iz zanke, saj so ostale poteze slabÅ¡e.
+			if (alpha >= beta) // Gremo iz zanke, saj so ostale poteze slabše.
 				return new OcenjenaPoteza(kandidat, ocena);
 		}
 		
 		return new OcenjenaPoteza(kandidat, ocena);
 	}
 	
-	// Deluje kot minimax, a veliko hitreje, ker na vsakem koraku pogleda le najboljÅ¡ih (globina) vej drevesa.
+	/**
+	 *  Deluje kot minimax, a veliko hitreje, ker na vsakem koraku pogleda le najboljših (globina) vej drevesa.
+	 * @param igra
+	 * @param globina
+	 * @param jaz iz katere perspektive ocenjujemo
+	 * @return raèunalnikova poteza
+	 */
 	public OcenjenaPoteza hitriMinimax(Igra igra, int globina, Igralec jaz) {
 		OcenjenaPoteza najboljsaPoteza = null;
 		
@@ -187,7 +221,7 @@ public class Inteligenca extends splosno.KdoIgra {
 		
 		BufferOcenjenihPotez izbranePoteze = new BufferOcenjenihPotez(globina);
 		
-		// Izdelamo izbranePoteze, to je najboljÅ¡ih (globina) potez izmed moznePoteze.
+		// Izdelamo izbranePoteze, to je najboljših (globina) potez izmed moznePoteze.
 		for (Koordinati p : moznePoteze) {
 			Igra kopijaIgre = new Igra(igra);
 			kopijaIgre.odigraj(p);
@@ -196,11 +230,11 @@ public class Inteligenca extends splosno.KdoIgra {
 			
 			OcenjenaPoteza op = new OcenjenaPoteza(p, ocena);
 			
-			// Potezo op dodamo med izbranePoteze, a le Äe je med najboljÅ¡ih (globina) potez. Za to poskrbi metoda add.
+			// Potezo op dodamo med izbranePoteze, a le èe je med najboljših (globina) potez. Za to poskrbi metoda add.
 			izbranePoteze.add(op);
 		}
 		
-		// Pogleda poddrevesa, vendar le za izbranePoteze. Tako se velikost drevesa moÄno zmanjÅ¡a.
+		// Pogleda poddrevesa, vendar le za izbranePoteze. Tako se velikost drevesa moèno zmanjša.
 		for (OcenjenaPoteza op : izbranePoteze.buffer) {
 			Igra kopijaIgre = new Igra(igra);
 			kopijaIgre.odigraj(op.poteza);

@@ -1,4 +1,4 @@
-package logika;
+package inteligenca;
 
 public enum Algoritem {
 	

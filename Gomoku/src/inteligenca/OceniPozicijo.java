@@ -7,11 +7,16 @@ import logika.Vrstica;
 
 public class OceniPozicijo {
 	
-	protected static final int W = Integer.MAX_VALUE;
-	protected static final int L = Integer.MIN_VALUE;
-	protected static final int TIE = 0;
+	protected static final int W = Integer.MAX_VALUE; // vrednost zmage
+	protected static final int L = Integer.MIN_VALUE; // vrednost izgube
+	protected static final int TIE = 0; // vrednost neodloËene igre
 	
-	// Metoda je klicana le, ko je igra ≈°e V_TEKU.
+	/**
+	 *  Ocena pozicije v igri. Metoda je klicana le, ko je igra öe V_TEKU.
+	 * @param igra
+	 * @param jaz
+	 * @return ocena trenutne pozicije
+	 */
 	public static int oceniPozicijo(Igra igra, Igralec jaz) {
 		switch (igra.stanjeIgre()) {
 		case ZMAGA_WHITE: return (jaz == Igralec.WHITE ? W : L);
@@ -24,14 +29,17 @@ public class OceniPozicijo {
 				ocena += oceniVrsto5(v, igra, jaz);
 			}
 			
-//			for (Vrstica v : Igra.VRSTICE_6) {
-//				ocena += oceniVrsto6(v, igra, jaz);
-//			}
-			
 			return ocena;
 		}
 	}
 	
+	/** Oceni posamezno vrsto z vidika igralca na potezi
+	 * 
+	 * @param v vrsta
+	 * @param igra
+	 * @param jaz iz katere perspektive ocenjujemo
+	 * @return
+	 */
 	public static int oceniVrsto5(Vrstica v, Igra igra, Igralec jaz) {
 		Polje[][] plosca = igra.getPlosca();
 		
@@ -63,35 +71,5 @@ public class OceniPozicijo {
 		else return countBLACK - countWHITE; // (jaz == Igralec.BLACK)
 	}
 	
-	// Oceni vrsto dol≈æine 6.
-	// Vrne visoko oceno le, ƒçe imamo vrstico oblike [E, B/W, B/W, B/W, B/W, E], sicer 0.
-//	public static int oceniVrsto6(Vrstica v, Igra igra, Igralec jaz) {
-//		Polje[][] plosca = igra.getPlosca();
-//		
-//		if (plosca[v.x[0]][v.y[0]] != Polje.EMPTY || plosca[v.x[5]][v.y[5]] != Polje.EMPTY) return 0;
-//		
-//		int countWHITE = 0;
-//		int countBLACK = 0;
-//		
-//		for (int k = 1; k < 5 && (countWHITE == 0 || countBLACK == 0); ++k) {
-//			switch (plosca[v.x[k]][v.y[k]]) {
-//			case WHITE: countWHITE += 1; break;
-//			case BLACK: countBLACK += 1; break;
-//			case EMPTY: return 0;
-//			}
-//		}
-//		
-//		if (countWHITE == 4) {
-//			if (jaz == Igralec.WHITE) return W / 5000;
-//			else if (jaz == Igralec.BLACK) return L / 500;
-//			else assert false; return 0;
-//		}
-//		else if (countBLACK == 4) {
-//			if (jaz == Igralec.BLACK) return W / 5000;
-//			else if (jaz == Igralec.WHITE) return L / 500;
-//			else assert false; return 0;
-//		}
-//		else return 0;
-//	}
 	
 }

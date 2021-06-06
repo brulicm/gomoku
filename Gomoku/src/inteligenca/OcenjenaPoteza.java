@@ -2,6 +2,9 @@ package inteligenca;
 
 import splosno.Koordinati;
 
+/** 
+ * Poteze skupaj z njihovo oceno
+ */
 public class OcenjenaPoteza {
 	
 	// "Package private" fields (podobno kot protected).
