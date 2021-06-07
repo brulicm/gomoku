@@ -3,14 +3,18 @@ package logika;
 import java.util.LinkedList;
 import java.util.List;
 
+import inteligenca.Algoritem;
 import splosno.Koordinati;
 
 public class Igra {
 	
-	// Velikost igralne plo≈°ƒçe N x N.
-	public static int N = 15; // ali 19
+	// Velikost igralne ploöËe N x N.
+	public static int N = 15; 
+	
+	// Algoritem
 	public static Algoritem algoritem = Algoritem.HITRI_MINIMAX;
-	// Seznam vseh mo≈ænih vrstic dol≈æine 5 na plo≈°ƒçi.
+	
+	// Seznam vseh moûnih vrstic dolûine 5 na ploöËi.
 	public static final List<Vrstica> VRSTICE = new LinkedList<Vrstica>();
 	public static final List<Vrstica> VRSTICE_6 = new LinkedList<Vrstica>();
 	
@@ -20,7 +24,7 @@ public class Igra {
 	static {
 		int[][] smeri = {{1, 0}, {0, 1}, {1, 1}, {1, -1}};
 		
-		// Med VRSTICE dodamo vse mo≈æne vrstice dol≈æine 5 na plo≈°ƒçi (objekte razreda Vrstica).
+		// Med VRSTICE dodamo vse moûne vrstice dolûine 5 na ploöËi (objekte razreda Vrstica).
 		for (int x = 0; x < N; ++x) {
 			for (int y = 0; y < N; ++y) {
 				for (int[] smer : smeri) {
@@ -44,7 +48,7 @@ public class Igra {
 			}
 		}
 		
-		// Med VRSTICE dodamo vse mo≈æne vrstice dol≈æine 6 (za minimax oceno pozicije).
+		// Med VRSTICE dodamo vse moûne vrstice dolûine 6 (za minimax oceno pozicije).
 		for (int x = 0; x < N; ++x) {
 			for (int y = 0; y < N; ++y) {
 				for (int[] smer : smeri) {
@@ -68,14 +72,18 @@ public class Igra {
 			}
 		}
 	}
+	// Igralno polje
+	private Polje[][] plosca; 
 	
-	private Polje[][] plosca;
-	public Igralec naPotezi;
-	public LinkedList<Koordinati> odigranePoteze;
+	// Igralec na potezi
+	public Igralec naPotezi; 
+	
+	// Odigrane poteze
+	public LinkedList<Koordinati> odigranePoteze; 
 	
 	/**
 	 * Konstruktor
-	 * Na zaƒçetku so vsa polja EMPTY, na potezi je WHITE.
+	 * Na zaËetku so vsa polja EMPTY, na potezi je WHITE.
 	 */
 	public Igra() {
 		this.plosca = new Polje[N][N];
@@ -105,12 +113,16 @@ public class Igra {
 		for (Koordinati p : igra.odigranePoteze) this.odigranePoteze.add(p);
 	}
 	
+	/**
+	 * Vrne igralno ploöËo.
+	 * @return ploöËa
+	 */
 	public Polje[][] getPlosca() {
 		return this.plosca;
 	}
 	
 	/**
-	 * Vrne seznam koordinat vseh praznih polj - mo≈ænih potez - na plo≈°ƒçi.
+	 * Vrne seznam koordinat vseh praznih polj - moûnih potez - na ploöËi.
 	 * @return seznam Koordinat
 	 */
 	public List<Koordinati> moznePoteze() {
@@ -127,7 +139,7 @@ public class Igra {
 	}
 	
 	/**
-	 * Vrne igralca, ki ima zasedeno celo vrstico (ta je podana), ƒçe ga ni, pa null.
+	 * Vrne igralca, ki ima zasedeno celo vrstico (ta je podana), Ëe ga ni, pa null.
 	 * @param v
 	 * @return WHITE/BLACK/null
 	 */
@@ -149,7 +161,7 @@ public class Igra {
 	}
 	
 	/**
-	 * Vrne zmagovalno vrsto, ƒçe je ni, pa null.
+	 * Vrne zmagovalno vrsto, Ëe je ni, pa null.
 	 * @return zmagovalnaVrstica/null
 	 */
 	public Vrstica zmagovalnaVrstica() {
@@ -176,14 +188,14 @@ public class Igra {
 			}
 		}
 		
-		// Zmagovalca (≈°e) ni. Preverimo, ƒçe je na plo≈°ƒçi ≈°e kak≈°no prazno polje.
+		// Zmagovalca (öe) ni. Preverimo, Ëe je na ploöËi öe kaköno prazno polje.
 		for (int i = 0; i < N; ++i) {
 			for (int j = 0; j < N; ++j) {
 				if (this.plosca[i][j] == Polje.EMPTY) return Stanje.V_TEKU;
 			}
 		}
 		
-		// Plo≈°ƒça je zapolnjena.
+		// PloöËa je zapolnjena.
 		return Stanje.NEODLOCENO;
 	}
 	
@@ -196,7 +208,7 @@ public class Igra {
 		
 		// if (polje na koordinatah je prazno)
 		if (this.plosca[koordinati.getX()][koordinati.getY()] == Polje.EMPTY) {
-			// Ustrezno zapolnimo polje na plo≈°ƒçi na koordinatah koor.
+			// Ustrezno zapolnimo polje na ploöËi na koordinatah koor.
 			this.plosca[koordinati.getX()][koordinati.getY()] = this.naPotezi.getPolje();
 			// Potezo dodamo v odigranePoteze.
 			this.odigranePoteze.add(koordinati);
@@ -206,7 +218,7 @@ public class Igra {
 			return true;
 		}
 		
-		// Polje na koordinatah je ≈æe zasedeno.
+		// Polje na koordinatah je ûe zasedeno.
 		return false;
 	}
 	
@@ -219,14 +231,14 @@ public class Igra {
 		if ((this.odigranePoteze.size() >= 1) && (this.stanjeIgre() == Stanje.V_TEKU)) {
 			// Odstranimo zadnjo potezo in jo shranimo v spremenljivko.
 			Koordinati zadnjaPoteza = this.odigranePoteze.removeLast();
-			// Ustrezno polje na plo≈°ƒçi nastavimo na EMPTY.
+			// Ustrezno polje na ploöËi nastavimo na EMPTY.
 			this.plosca[zadnjaPoteza.getX()][zadnjaPoteza.getY()] = Polje.EMPTY;
 			// Popravimo igralca na potezi.
 			this.naPotezi = this.naPotezi.nasprotnik();
 			return true;
 		}
 		
-		// Nobena poteza ≈°e ni bila odigrana.
+		// Nobena poteza öe ni bila odigrana.
 		return false;
 	}
 		

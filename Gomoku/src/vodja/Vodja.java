@@ -11,6 +11,10 @@ import logika.Igra;
 import logika.Igralec;
 import splosno.Koordinati;
 
+/**
+ * Vodenje poteka igre.
+ *
+ */
 public class Vodja {	
 	
 	public static Map<Igralec, VrstaIgralca> vrstaIgralca;
@@ -21,15 +25,21 @@ public class Vodja {
 	
 	public static boolean clovekNaVrsti = false;
 	
-	public static int zakasnitev = 1; // Premor pred vsako raƒçunalnikovo potezo.
+	public static int zakasnitev = 1; // Premor pred vsako raËunalnikovo potezo.
 	
 	public static Inteligenca racunalnikovaInteligenca = new Inteligenca("inteligenca");
 	
+	/** 
+	 * Ustvari novo igro in jo zaûene.
+	 */
 	public static void igramoNovoIgro() {
 		igra = new Igra();
 		igramo();
 	}
 	
+	/**
+	 * Potek igre
+	 */
 	public static void igramo() {
 		okno.osveziGUI();
 		
@@ -52,6 +62,10 @@ public class Vodja {
 		}
 	}
 	
+	/**
+	 *  Odigra raËunalnikovo potezo in posodobi grafiko - nariöe potezo.
+	 *  Preden odigra poËaka.
+	 */
 	public static void igrajRacunalnikovoPotezo() {
 		Igra zacetnaIgra = igra;
 		
@@ -65,7 +79,7 @@ public class Vodja {
 				
 				long executionTime = (endTime - startTime) / 1000000; // milisekunde
 				
-				// ƒåe je poteza kraj≈°a od (zakasnitev), zaspimo do skupnega ƒçasa (zakasnitev).
+				// Ëe je poteza krajöa od (zakasnitev), zaspimo do skupnega Ëasa (zakasnitev).
 				if (executionTime < 1000*zakasnitev) {
 					try {TimeUnit.MILLISECONDS.sleep(1000*zakasnitev - executionTime);} catch (Exception e) {};
 				}
@@ -78,6 +92,10 @@ public class Vodja {
 			protected void done() {
 				Koordinati poteza = null;
 				try {poteza = get();} catch (Exception e) {};
+				/*
+				 *  Preveri Ëe uporabnik med izvajanjem ni spremenil igre, t. j. da ni v meniju izbral nove igre,
+				 *  saj ne ûelimo odigrati poteze na stari igri.
+				 */
 				if (igra == zacetnaIgra) {
 					igra.odigraj(poteza);
 					igramo();
@@ -89,6 +107,11 @@ public class Vodja {
 		worker.execute();
 	}
 	
+	/**
+	 * Odigra Ëlovekovo potezo, Ëe je moûna in nadaljuje z igro.
+	 * 
+	 * @param poteza izbrana poteza 
+	 */
 	public static void igrajClovekovoPotezo(Koordinati poteza) {
 		if (igra.odigraj(poteza)) clovekNaVrsti = false;
 		igramo();

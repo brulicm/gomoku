@@ -15,25 +15,24 @@ public class BufferOcenjenihPotez {
 		this.buffer = new LinkedList<OcenjenaPoteza>();
 	}
 	
+	/**
+	 * V buffer doda potezo, Ëe je njena ocena boljöa ali enaka ocenam v seznamu.
+	 * 
+	 * @param ocenjenaPoteza poteza, ki jo zelimo dodati
+	 */
 	public void add(OcenjenaPoteza ocenjenaPoteza) {
 		int i = 0;
 		
 		for (OcenjenaPoteza p : this.buffer) {
-			// Gremo ƒçez buffer, dokler ne najdemo p, ki je slab≈°i od ocenjenaPoteza.
+			// Gremo Ëez buffer, dokler ne najdemo p, ki je slaböi od ocenjenaPoteza.
 			if (ocenjenaPoteza.compareTo(p) != 1) ++i; // (ocenjenaPoteza <= p)
 			else break; // (ocenjenaPoteza > p)
 		}
 		
-		// V bufferju hoƒçemo najbolj≈°ih (velikost) potez, ki so urejene padajoƒçe.
+		// V bufferju hoËemo najboljöih (velikost) potez, ki so urejene padajoËe.
 		if (i < velikost) this.buffer.add(i, ocenjenaPoteza);
 		if (this.buffer.size() > velikost) this.buffer.removeLast();
 	}
-	
-	/*
-	public List<OcenjenaPoteza> list() {
-		return (List<OcenjenaPoteza>)this.buffer;
-	}
-	*/
 	
 	public List<Koordinati> listKoor() {
 		List<Koordinati> rtr = new LinkedList<Koordinati>();
