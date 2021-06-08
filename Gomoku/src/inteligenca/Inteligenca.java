@@ -160,7 +160,7 @@ public class Inteligenca extends splosno.KdoIgra {
 	}
 	
 	/**
-	 *  Vrne prvo izmed najbolj�ih potez z vidika igralca jaz (klasi�ni minimax algoritem z alpha-beta obrezovanjem).
+	 *  Vrne prvo izmed najboljših potez z vidika igralca jaz (klasični minimax algoritem z alpha-beta obrezovanjem).
 	 *  
 	 * @param igra
 	 * @param globina
@@ -241,7 +241,7 @@ public class Inteligenca extends splosno.KdoIgra {
 			
 			OcenjenaPoteza op = new OcenjenaPoteza(p, ocena);
 			
-			// Potezo op dodamo med izbranePoteze, a le če je med najbolj�ih (globina) potez. Za to poskrbi metoda add.
+			// Potezo op dodamo med izbranePoteze, a le če je med najboljših (globina) potez. Za to poskrbi metoda add.
 			izbranePoteze.add(op);
 		}
 		

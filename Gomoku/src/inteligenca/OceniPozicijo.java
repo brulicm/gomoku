@@ -12,10 +12,10 @@ public class OceniPozicijo {
 	
 	protected static final int W = Integer.MAX_VALUE; // vrednost zmage
 	protected static final int L = Integer.MIN_VALUE; // vrednost izgube
-	protected static final int TIE = 0; // vrednost neodlo�ene igre
+	protected static final int TIE = 0; // vrednost neodločene igre
 	
 	/**
-	 *  Ocena pozicije v igri. Metoda je klicana le, ko je igra �e V_TEKU.
+	 *  Ocena pozicije v igri. Metoda je klicana le, ko je igra še V_TEKU.
 	 * @param igra
 	 * @param jaz
 	 * @return ocena trenutne pozicije
