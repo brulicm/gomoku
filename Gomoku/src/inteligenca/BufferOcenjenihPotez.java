@@ -5,6 +5,9 @@ import java.util.List;
 
 import splosno.Koordinati;
 
+/**
+ * Razred se uporablja pri algoritmu hitri minimax. V buffer se ustrezno shranjuje število najboljših možnih potez.
+ */
 public class BufferOcenjenihPotez {
 	
 	private int velikost;
@@ -16,22 +19,22 @@ public class BufferOcenjenihPotez {
 	}
 	
 	/**
-	 * V buffer doda potezo, �e je njena ocena bolj�a ali enaka ocenam v seznamu.
+	 * Potezo glede na njeno oceno doda na ustrezno mesto v buffer.
 	 * 
-	 * @param ocenjenaPoteza poteza, ki jo zelimo dodati
+	 * @param ocenjenaPoteza
 	 */
 	public void add(OcenjenaPoteza ocenjenaPoteza) {
 		int i = 0;
 		
 		for (OcenjenaPoteza p : this.buffer) {
-			// Gremo �ez buffer, dokler ne najdemo p, ki je slab�i od ocenjenaPoteza.
+			// Gremo čez buffer, dokler ne najdemo p, ki je slabši od ocenjenaPoteza.
 			if (ocenjenaPoteza.compareTo(p) != 1) ++i; // (ocenjenaPoteza <= p)
 			else break; // (ocenjenaPoteza > p)
 		}
 		
-		// V bufferju ho�emo najbolj�ih (velikost) potez, ki so urejene padajo�e.
-		if (i < velikost) this.buffer.add(i, ocenjenaPoteza);
-		if (this.buffer.size() > velikost) this.buffer.removeLast();
+		// V bufferju hočemo najboljših (velikost) potez, ki so urejene padajoče.
+		if (i < this.velikost) this.buffer.add(i, ocenjenaPoteza);
+		if (this.buffer.size() > this.velikost) this.buffer.removeLast();
 	}
 	
 	public List<Koordinati> listKoor() {

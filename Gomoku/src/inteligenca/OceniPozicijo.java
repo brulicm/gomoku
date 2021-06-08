@@ -5,14 +5,17 @@ import logika.Igralec;
 import logika.Polje;
 import logika.Vrstica;
 
+/**
+ * Razred vsebuje statično metodo, ki oceni pozicijo igralne plošče s številčno oceno.
+ */
 public class OceniPozicijo {
 	
 	protected static final int W = Integer.MAX_VALUE; // vrednost zmage
 	protected static final int L = Integer.MIN_VALUE; // vrednost izgube
-	protected static final int TIE = 0; // vrednost neodlo�ene igre
+	protected static final int TIE = 0; // vrednost neodlo�ene igre
 	
 	/**
-	 *  Ocena pozicije v igri. Metoda je klicana le, ko je igra �e V_TEKU.
+	 *  Ocena pozicije v igri. Metoda je klicana le, ko je igra �e V_TEKU.
 	 * @param igra
 	 * @param jaz
 	 * @return ocena trenutne pozicije
@@ -33,12 +36,14 @@ public class OceniPozicijo {
 		}
 	}
 	
-	/** Oceni posamezno vrsto z vidika igralca na potezi
+	/**
+	 * Oceni posamezno vrsto z vidika igralca na potezi in oceno vrne.
 	 * 
-	 * @param v vrsta
+	 * @param vrsta v
 	 * @param igra
-	 * @param jaz iz katere perspektive ocenjujemo
-	 * @return
+	 * @param igralec jaz
+	 * 
+	 * @return int
 	 */
 	public static int oceniVrsto5(Vrstica v, Igra igra, Igralec jaz) {
 		Polje[][] plosca = igra.getPlosca();
@@ -70,6 +75,5 @@ public class OceniPozicijo {
 		else if (jaz == Igralec.WHITE) return countWHITE - countBLACK;
 		else return countBLACK - countWHITE; // (jaz == Igralec.BLACK)
 	}
-	
-	
+		
 }

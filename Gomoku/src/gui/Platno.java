@@ -17,14 +17,17 @@ import logika.Polje;
 import logika.Vrstica;
 
 /**
- * Pravokotno obmoËje, v katerem je narisano igralno polje.
+ * Pravokotno obmoƒçje, v katerem je narisano igralno polje.
  */
 @SuppressWarnings("serial")
 public class Platno extends JPanel implements MouseListener {
 	
+	/**
+	 * Konstruktor.
+	 */
 	public Platno() {
 		
-		// Nastavi ozadje
+		// Nastavi barvo ozadja.
 		this.setBackground(new Color(210,180,140));
 		
 		this.addMouseListener(this);
@@ -32,38 +35,40 @@ public class Platno extends JPanel implements MouseListener {
 	}
 	
 	/**
-	 * ZaËetna velikost igralnega platna.
+	 * Zaƒçetna velikost igralnega platna.
 	 */
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(523, 393);
 	}
 	
-	// Relativna öirina Ërte
+	// Relativna ≈°irina ƒçrte
 	private final static double LINE_WIDTH = 0.05;
 	
-	/** äirina enega kvadratka v mreûi - igralnem polju
+	/** Vrne ≈°irina enega kvadratka v mre≈æi - igralni plo≈°ƒçi.
 	 * 
-	 * @return öirina
+	 * @return ≈°irina
 	 */
 	private double squareWidth() {
 		return Math.min(this.getWidth(), this.getHeight()) / Igra.N;
 	}
 	
-	// Relativni prostor okoli ûetonov
+	// Relativni prostor okoli ≈æetonov
 	private final static double PADDING = 0.12;
 	
 	/**
-	 * Nariöe ûeton ustrezne barve na polje (i,j)
+	 * Nari≈°e ≈æeton ustrezne barve na polje (i,j)
 	 * 
 	 * @param g2
 	 * @param i
 	 * @param j
+	 * @param moveX
+	 * @param moveY
 	 */
 	private void paintToken(Graphics2D g2, int i, int j, int moveX, int moveY) {
 		double w = this.squareWidth();
 		double d = w * (1 - LINE_WIDTH - 2 * PADDING); // Premer kroga
-		// Koordinate zgornjega levega ogliöËa objemajoËega kvadrata.
+		// Koordinate zgornjega levega ogliÔøΩÔøΩa objemajoÔøΩega kvadrata.
 		double x = w * (i + 0.5 * LINE_WIDTH + PADDING);
 		double y = w * (j + 0.5 * LINE_WIDTH + PADDING);
 		
@@ -77,7 +82,9 @@ public class Platno extends JPanel implements MouseListener {
 	}
 	
 	/**
-	 * Nariöe igralno ploöËo
+	 * Nari≈°e igralno plo≈°ƒço.
+	 * 
+	 * @param g
 	 */
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -86,11 +93,11 @@ public class Platno extends JPanel implements MouseListener {
 		Graphics2D g2 = (Graphics2D)g;
 
 		double w = this.squareWidth(); // Velikost enega kvadratka
-		// Centriranje igralne ploöËe
+		// Centriranje igralne plo≈°ƒçe
 		int moveX = Math.max(0, (this.getWidth() - this.getHeight()) / 2) + 1;
 		int moveY = Math.max(0, (this.getHeight() - this.getWidth()) / 2) + 1;
 
-		// »e imamo zmagovalno n-terico, njeno ozadje pobarvamo
+		// ƒåe imamo zmagovalno n-terico, njeno ozadje pobarvamo
 		Vrstica v = null;
 		if (Vodja.igra != null) v = Vodja.igra.zmagovalnaVrstica();
 		if (v != null) {
@@ -102,7 +109,7 @@ public class Platno extends JPanel implements MouseListener {
 			}
 		}
 		
-		// Nariöemo Ërte
+		// Nari≈°emo ƒçrte
 		g2.setColor(Color.BLACK);
 		g2.setStroke(new BasicStroke((float)(w * LINE_WIDTH)));
 		for (int i = 0; i <= Igra.N; ++i) {
@@ -112,14 +119,14 @@ public class Platno extends JPanel implements MouseListener {
 					    (int)(Igra.N * w + moveX), (int)(i * w + moveY));
 		}
 		
-		// Prekriûani Ërti na zaËetnem zaslonu, da igralec ve, da mora najprej izbrati ûeljeno igro.
+		// Prekri≈æani ƒçrti na zaƒçetnem zaslonu, da igralec ve, da mora najprej izbrati ≈æeljeno igro.
 		if (Vodja.igra == null) {
 			g2.setStroke(new BasicStroke((float)(w * LINE_WIDTH / 2)));
 			g2.drawLine(moveX, moveY, (int)(moveX + Igra.N * w), (int)(moveY + Igra.N * w));
 			g2.drawLine(moveX, (int)(moveY + Igra.N * w), (int)(moveX + Igra.N * w), moveY);
 		}
 		
-		// Nariöemo ûetone
+		// Nari≈°emo ≈æetone
 		Polje[][] plosca;
 		if (Vodja.igra != null) {
 			plosca = Vodja.igra.getPlosca();
@@ -132,16 +139,17 @@ public class Platno extends JPanel implements MouseListener {
 	}
 	
 	/** 
-	 * OdËita mesto Ëlovekove poteze in jo odigra.
-	 *  
+	 * Odƒçita mesto ƒçlovekove poteze in jo odigra preko vodje.
+	 * 
+	 * @param e
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (Vodja.clovekNaVrsti) {
-			double xx = this.getWidth(); // öirina okna
-			double yy = this.getHeight(); // viöina okna
-			double moveXX = Math.max(0, (double)(xx - yy) / 2.0); // Centriranje igralne ploöËe
-			double moveYY = Math.max(0, (double)(yy - xx) / 2.0); // Centriranje igralne ploöËe
+			double xx = this.getWidth(); // ≈°irina okna
+			double yy = this.getHeight(); // vi≈°ina okna
+			double moveXX = Math.max(0, (double)(xx - yy) / 2.0); // Centriranje igralne plo≈°ƒçe
+			double moveYY = Math.max(0, (double)(yy - xx) / 2.0); // Centriranje igralne plo≈°ƒçe
 			
 			int x = e.getX() - (int)moveXX;
 			int y = e.getY() - (int)moveYY;
@@ -150,7 +158,7 @@ public class Platno extends JPanel implements MouseListener {
 			// Koordinate kvadratka
 			int i = x / w;
 			int j = y / w;
-			// di in dj nam povesta, ali smo v sredini kvadratka ali na Ërti.
+			// di in dj nam povesta, ali smo v sredini kvadratka ali na ƒçrti.
 			double di = (x % w) / this.squareWidth();
 			double dj = (y % w) / this.squareWidth();
 			

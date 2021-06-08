@@ -6,17 +6,19 @@ import java.util.List;
 import inteligenca.Algoritem;
 import splosno.Koordinati;
 
+/**
+ * Razred predstavlja eno igro. Vsebuje metode za igranje potez, razveljavljanje potez, pridobitev stanja,... 
+ */
 public class Igra {
 	
-	// Velikost igralne ploöËe N x N.
+	// Velikost igralne plo≈°ƒçe N x N.
 	public static int N = 15; 
 	
 	// Algoritem
 	public static Algoritem algoritem = Algoritem.HITRI_MINIMAX;
 	
-	// Seznam vseh moûnih vrstic dolûine 5 na ploöËi.
+	// Seznam vseh mo≈ænih vrstic dol≈æine 5 na plo≈°ƒçi.
 	public static final List<Vrstica> VRSTICE = new LinkedList<Vrstica>();
-	public static final List<Vrstica> VRSTICE_6 = new LinkedList<Vrstica>();
 	
 	// This is a static initialization block, "a static version of the constructor".
 	// Constructors are run when the class is instantiated.
@@ -24,7 +26,7 @@ public class Igra {
 	static {
 		int[][] smeri = {{1, 0}, {0, 1}, {1, 1}, {1, -1}};
 		
-		// Med VRSTICE dodamo vse moûne vrstice dolûine 5 na ploöËi (objekte razreda Vrstica).
+		// Med VRSTICE dodamo vse mo≈æne vrstice dol≈æine 5 na plo≈°ƒçi (objekte razreda Vrstica).
 		for (int x = 0; x < N; ++x) {
 			for (int y = 0; y < N; ++y) {
 				for (int[] smer : smeri) {
@@ -47,32 +49,9 @@ public class Igra {
 				}
 			}
 		}
-		
-		// Med VRSTICE dodamo vse moûne vrstice dolûine 6 (za minimax oceno pozicije).
-		for (int x = 0; x < N; ++x) {
-			for (int y = 0; y < N; ++y) {
-				for (int[] smer : smeri) {
-					
-					int dx = smer[0];
-					int dy = smer[1];
-					
-					// if (cela vrstica znotraj tabele)
-					if ((0 <= x + 5 * dx) && (x + 5 * dx < N) && (0 <= y + 5 * dy) && (y + 5 * dy < N)) {
-						int[] vrsticaX = new int[6];
-						int[] vrsticaY = new int[6];
-						
-						for (int k = 0; k < 6; ++k) {
-							vrsticaX[k] = x + dx * k;
-							vrsticaY[k] = y + dy * k;
-						}
-						
-						VRSTICE_6.add(new Vrstica(vrsticaX, vrsticaY));
-					}
-				}
-			}
-		}
 	}
-	// Igralno polje
+	
+	// Igralna plo≈°ƒça
 	private Polje[][] plosca; 
 	
 	// Igralec na potezi
@@ -83,7 +62,7 @@ public class Igra {
 	
 	/**
 	 * Konstruktor
-	 * Na zaËetku so vsa polja EMPTY, na potezi je WHITE.
+	 * Na zaƒçetku so vsa polja EMPTY, na potezi je WHITE.
 	 */
 	public Igra() {
 		this.plosca = new Polje[N][N];
@@ -97,7 +76,7 @@ public class Igra {
 	}
 	
 	/**
-	 * Konstruktor za kopijo igre
+	 * Konstruktor za kopijo igre.
 	 */
 	public Igra(Igra igra) {
 		this.plosca = new Polje[N][N];
@@ -114,16 +93,16 @@ public class Igra {
 	}
 	
 	/**
-	 * Vrne igralno ploöËo.
-	 * @return ploöËa
+	 * Vrne igralno plo≈°ƒço.
+	 * @return plosca
 	 */
 	public Polje[][] getPlosca() {
 		return this.plosca;
 	}
 	
 	/**
-	 * Vrne seznam koordinat vseh praznih polj - moûnih potez - na ploöËi.
-	 * @return seznam Koordinat
+	 * Vrne seznam koordinat vseh praznih polj - mo≈ænih potez - na plo≈°ƒçi.
+	 * @return seznam koordinat
 	 */
 	public List<Koordinati> moznePoteze() {
 		List<Koordinati> rtr = new LinkedList<Koordinati>();
@@ -139,7 +118,7 @@ public class Igra {
 	}
 	
 	/**
-	 * Vrne igralca, ki ima zasedeno celo vrstico (ta je podana), Ëe ga ni, pa null.
+	 * Vrne igralca, ki ima zasedeno celo vrstico (ta je podana), ƒçe ga ni, pa null.
 	 * @param v
 	 * @return WHITE/BLACK/null
 	 */
@@ -161,7 +140,7 @@ public class Igra {
 	}
 	
 	/**
-	 * Vrne zmagovalno vrsto, Ëe je ni, pa null.
+	 * Vrne zmagovalno vrsto, ƒçe je ni, pa null.
 	 * @return zmagovalnaVrstica/null
 	 */
 	public Vrstica zmagovalnaVrstica() {
@@ -188,27 +167,27 @@ public class Igra {
 			}
 		}
 		
-		// Zmagovalca (öe) ni. Preverimo, Ëe je na ploöËi öe kaköno prazno polje.
+		// Zmagovalca (≈°e) ni. Preverimo, ƒçe je na plo≈°ƒçi ≈°e kak≈°no prazno polje.
 		for (int i = 0; i < N; ++i) {
 			for (int j = 0; j < N; ++j) {
 				if (this.plosca[i][j] == Polje.EMPTY) return Stanje.V_TEKU;
 			}
 		}
 		
-		// PloöËa je zapolnjena.
+		// Plo≈°ƒça je zapolnjena.
 		return Stanje.NEODLOCENO;
 	}
 	
 	/**
-	 * Odigra potezo na koordinatah koor (igralec igra.naPotezi).
-	 * @param koor
-	 * @return true/false
+	 * Odigra potezo na koordinatah koordinati (igralec igra.naPotezi).
+	 * @param koordinati
+	 * @return boolean
 	 */
 	public boolean odigraj(Koordinati koordinati) {
 		
 		// if (polje na koordinatah je prazno)
 		if (this.plosca[koordinati.getX()][koordinati.getY()] == Polje.EMPTY) {
-			// Ustrezno zapolnimo polje na ploöËi na koordinatah koor.
+			// Ustrezno zapolnimo polje na plo≈°ƒçi na koordinatah koor.
 			this.plosca[koordinati.getX()][koordinati.getY()] = this.naPotezi.getPolje();
 			// Potezo dodamo v odigranePoteze.
 			this.odigranePoteze.add(koordinati);
@@ -218,27 +197,27 @@ public class Igra {
 			return true;
 		}
 		
-		// Polje na koordinatah je ûe zasedeno.
+		// Polje na koordinatah je ≈æe zasedeno.
 		return false;
 	}
 	
 	/**
 	 * Razveljavi nazadnje odigrano potezo.
-	 * @return true/false
+	 * @return boolean
 	 */
 	public boolean razveljaviPotezo() {
 		// if (lahko razveljavimo potezo)
 		if ((this.odigranePoteze.size() >= 1) && (this.stanjeIgre() == Stanje.V_TEKU)) {
 			// Odstranimo zadnjo potezo in jo shranimo v spremenljivko.
 			Koordinati zadnjaPoteza = this.odigranePoteze.removeLast();
-			// Ustrezno polje na ploöËi nastavimo na EMPTY.
+			// Ustrezno polje na plo≈°ƒçi nastavimo na EMPTY.
 			this.plosca[zadnjaPoteza.getX()][zadnjaPoteza.getY()] = Polje.EMPTY;
 			// Popravimo igralca na potezi.
 			this.naPotezi = this.naPotezi.nasprotnik();
 			return true;
 		}
 		
-		// Nobena poteza öe ni bila odigrana.
+		// Nobena poteza ≈°e ni bila odigrana.
 		return false;
 	}
 		

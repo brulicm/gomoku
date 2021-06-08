@@ -25,8 +25,7 @@ import logika.Stanje;
 
 
 /**
- * Glavno okno aplikacije hrani trenutno
- * stanje igre in nadzoruje potek igre.
+ * Razred predstavlja glavno okno programa.
  */
 @SuppressWarnings("serial")
 public class Okno extends JFrame implements ActionListener {
@@ -63,7 +62,8 @@ public class Okno extends JFrame implements ActionListener {
 	private JMenuItem razveljaviPotezo;
 
 	/**
-	 * Ustvari novo okno in zaËne igrati igro.
+	 * Konstruktor.
+	 * Ustvari novo okno.
 	 */
 	public Okno() {
 		
@@ -81,34 +81,34 @@ public class Okno extends JFrame implements ActionListener {
 		JMenu menuNastavitve = dodajMenu(menu_bar, "Nastavitve");
 	
 		// Izbire v menuju Nova Igra 
-		this.igraClovekRacunalnik = dodajMenuItem(menuIgra, "»lovek - RaËunalnik");
-		this.igraRacunalnikClovek = dodajMenuItem(menuIgra, "RaËunalnik - »lovek");
-		this.igraClovekClovek = dodajMenuItem(menuIgra, "»lovek - »lovek");
-		this.igraRacunalnikRacunalnik = dodajMenuItem(menuIgra, "RaËunalnik - RaËunalnik");
+		this.igraClovekRacunalnik = dodajMenuItem(menuIgra, "ƒålovek - Raƒçunalnik");
+		this.igraRacunalnikClovek = dodajMenuItem(menuIgra, "Raƒçunalnik - ƒålovek");
+		this.igraClovekClovek = dodajMenuItem(menuIgra, "ƒålovek - ƒålovek");
+		this.igraRacunalnikRacunalnik = dodajMenuItem(menuIgra, "Raƒçunalnik - Raƒçunalnik");
 		
-		// Ustvari podmenu Velikost ploöËe in razliËne izbire velikosti
-		this.menuVelikostIgre = dodajPodmenu(menuNastavitve, "Velikost ploöËe...");
+		// Ustvari podmenu Velikost plo≈°ƒçe in razliƒçne izbire velikosti
+		this.menuVelikostIgre = dodajPodmenu(menuNastavitve, "Velikost plo≈°ƒçe...");
 		this.velikost15 = dodajMenuItem(menuVelikostIgre, "15x15 (default)");
 		this.velikost19 = dodajMenuItem(menuVelikostIgre, "19x19");
 		
-		// Ustvari podmenu Algoritem in razliËne izbire algoritma
+		// Ustvari podmenu Algoritem in razliƒçne izbire algoritma
 		this.menuAlgoritem = dodajPodmenu(menuNastavitve, "Inteligenca...");
-		this.algoritemNeumni = dodajMenuItem(menuAlgoritem, "NakljuËne poteze");
+		this.algoritemNeumni = dodajMenuItem(menuAlgoritem, "Nakljuƒçne poteze");
 		this.algoritemMinimax = dodajMenuItem(menuAlgoritem, "Minimax");
-		this.algoritemRandomMinimax = dodajMenuItem(menuAlgoritem, "NakljuËni minimax");
+		this.algoritemRandomMinimax = dodajMenuItem(menuAlgoritem, "Nakljuƒçni minimax");
 		this.algoritemMinimaxAlphaBeta = dodajMenuItem(menuAlgoritem, "Minimax + AlphaBeta");
 		this.algoritemHitriMinimax = dodajMenuItem(menuAlgoritem, "Hitri minimax (default)");
 		
 		// Ustvari zakasnitev poteze 
-		this.menuZakasnitevPoteze = dodajMenuItem(menuNastavitve, "Zakasnitev raËunalnikove poteze...");
+		this.menuZakasnitevPoteze = dodajMenuItem(menuNastavitve, "Zakasnitev raƒçunalnikove poteze...");
 		
 		// Ustvari razveljavi potezo
 		this.razveljaviPotezo = dodajMenuItem(menuNastavitve, "Razveljavi zadnjo potezo!");
 		
-		// Ustvari novo igralno ploöËo
+		// Ustvari novo igralno plo≈°ƒço
 		this.platno = new Platno();
 
-		// NaËin in mesto postavitve platna v oknu
+		// Naƒçin in mesto postavitve platna v oknu
 		GridBagConstraints platno_layout = new GridBagConstraints();
 		platno_layout.gridx = 0;
 		platno_layout.gridy = 0;
@@ -117,27 +117,29 @@ public class Okno extends JFrame implements ActionListener {
 		platno_layout.weighty = 1.0;
 		getContentPane().add(platno, platno_layout);
 		
-		// Statusna vrstica za sporoËila
+		// Statusna vrstica za sporoƒçila
 		this.status = new JLabel();
 		this.status.setFont(new Font(this.status.getFont().getName(),
 		this.status.getFont().getStyle(), 16));
 		
-		// NaËin in mesto postavitve statusne vrstice v oknu
+		// Naƒçin in mesto postavitve statusne vrstice v oknu
 		GridBagConstraints status_layout = new GridBagConstraints();
 		status_layout.gridx = 0;
 		status_layout.gridy = 1;
 		status_layout.anchor = GridBagConstraints.CENTER;
 		getContentPane().add(status, status_layout);
 		
-		// ZaËetno stanje statusne vrstice
-		this.status.setText("Izberite ûeljeno igro!");
+		// Zaƒçetno stanje statusne vrstice
+		this.status.setText("Izberite ≈æeljeno igro!");
 	}
 	
 	/**
-	 * Pomoûna metoda za konstruiranje menuja
+	 * Pomo≈æna metoda za konstruiranje menuja
+	 * 
 	 * @param menubar vrstica z vsemi menuji
-	 * @param naslov poimenovanje menu-ja
-	 * @return menu z danim naslovom
+	 * @param naslov
+	 * 
+	 * @return menu
 	 */
 	public JMenu dodajMenu(JMenuBar menu_bar, String naslov) {
 		JMenu menu = new JMenu(naslov);
@@ -146,9 +148,11 @@ public class Okno extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Pomoûna metoda za konstruiranje podmenuja
+	 * Pomo≈æna metoda za konstruiranje podmenuja
+	 * 
 	 * @param menu v katerem bo ta podmenu
-	 * @param naslov poimenovanje podmenuja
+	 * @param naslov
+	 * 
 	 * @return podmenu z danim naslovom
 	 */
 	public JMenu dodajPodmenu(JMenu menu, String naslov) {
@@ -158,9 +162,11 @@ public class Okno extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Pomoûna metoda za konstruiranje izbire v menuju
+	 * Pomo≈æna metoda za konstruiranje izbire v menuju
+	 * 
 	 * @param menu v katerem bo ta izbira
-	 * @param naslov poimenovanje izbire
+	 * @param naslov
+	 * 
 	 * @return izbira z danim naslovom v menuju
 	 */
 	public JMenuItem dodajMenuItem(JMenu menu, String naslov) {
@@ -171,230 +177,236 @@ public class Okno extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Odzivi ob izbirah razliËnih opcij v menuju
+	 * Kot parameter dobi dogodek, ki ga odigralec izbere v menuju.
+	 * Glede na dogodek ustrezno odreagira.
+	 * Dogodki vkljuƒçujejo izbiro nove igre in nastavitve igre.
+	 * 
+	 * @param e
 	 */
 	@Override
-	
-	// MENU NOVA IGRA
+	public void actionPerformed(ActionEvent e) {
+		// MENU NOVA IGRA
 		// Nastavi izbiro igralcev
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == this.igraClovekRacunalnik) {
-				Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-				Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.HUMAN); 
-				Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.COMP);
-				Vodja.igramoNovoIgro();
-			}
-		
-			else if (e.getSource() == this.igraRacunalnikClovek) {
-				Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-				Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.COMP); 
-				Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.HUMAN);
-				Vodja.igramoNovoIgro();
-			}
-		
-			else if (e.getSource() == this.igraClovekClovek) {
-				Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-				Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.HUMAN); 
-				Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.HUMAN);
-				Vodja.igramoNovoIgro();
-			}
-			
-			else if (e.getSource() == this.igraRacunalnikRacunalnik) {
-				Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
-				Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.COMP); 
-				Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.COMP);
-				Vodja.igramoNovoIgro();
-			}
+		if (e.getSource() == this.igraClovekRacunalnik) {
+			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
+			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.HUMAN); 
+			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.COMP);
+			Vodja.igramoNovoIgro();
+		}
+		// Nastavi izbiro igralcev
+		else if (e.getSource() == this.igraRacunalnikClovek) {
+			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
+			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.COMP); 
+			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.HUMAN);
+			Vodja.igramoNovoIgro();
+		}
+		// Nastavi izbiro igralcev
+		else if (e.getSource() == this.igraClovekClovek) {
+			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
+			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.HUMAN); 
+			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.HUMAN);
+			Vodja.igramoNovoIgro();
+		}
+		// Nastavi izbiro igralcev
+		else if (e.getSource() == this.igraRacunalnikRacunalnik) {
+			Vodja.vrstaIgralca = new EnumMap<Igralec,VrstaIgralca>(Igralec.class);
+			Vodja.vrstaIgralca.put(Igralec.WHITE, VrstaIgralca.COMP); 
+			Vodja.vrstaIgralca.put(Igralec.BLACK, VrstaIgralca.COMP);
+			Vodja.igramoNovoIgro();
+		}
 			
 		// MENU NASTAVITVE
-			// Nastavi velikost igralne ploöËe
-			else if (e.getSource() == this.velikost15) {
-				if (Vodja.igra == null) {
-					Igra.N = 15;
-					this.status.setText("Velikost nastavljena. Izberite ûeljeno igro!");
-				}
-				else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
-					Vodja.igra = null;
-					Igra.N = 15;
-					this.status.setText("Velikost nastavljena. Izberite ûeljeno igro!");
-				}
-				else this.status.setText("Dokler je igra v teku, velikosti ne morete spreminjati.");
-				this.platno.repaint();
+		// Nastavi velikost igralne plo≈°ƒçe
+		else if (e.getSource() == this.velikost15) {
+			if (Vodja.igra == null) {
+				Igra.N = 15;
+				this.status.setText("Velikost nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.N = 15;
+				this.status.setText("Velikost nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, velikosti ne morete spreminjati.");
+			
+			this.platno.repaint();
+		}
+		// Nastavi velikost igralne plo≈°ƒçe
+		else if (e.getSource() == this.velikost19) {
+			if (Vodja.igra == null) {
+				Igra.N = 19;
+				this.status.setText("Velikost nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.N = 19;
+				this.status.setText("Velikost nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, velikosti ne morete spreminjati.");
+			
+			this.platno.repaint();
+		}
+			
+		// Nastavi algoritem raƒçunalnikove inteligence
+		else if (e.getSource() == this.algoritemNeumni) {
+			if (Vodja.igra == null) {
+				Igra.algoritem = Algoritem.NEUMNI;
+				this.status.setText("Inteligenca nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.algoritem = Algoritem.NEUMNI;
+				this.status.setText("Inteligenca nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
+				
+			this.platno.repaint();
+		}
+		// Nastavi algoritem raƒçunalnikove inteligence
+		else if (e.getSource() == this.algoritemMinimax) {
+			if (Vodja.igra == null) {
+				Igra.algoritem = Algoritem.MINIMAX;
+				this.status.setText("Inteligenca nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.algoritem = Algoritem.MINIMAX;
+				this.status.setText("Inteligenca nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
+			
+			this.platno.repaint();
+		}
+		// Nastavi algoritem raƒçunalnikove inteligence
+		else if (e.getSource() == this.algoritemRandomMinimax) {
+			if (Vodja.igra == null) {
+				Igra.algoritem = Algoritem.RANDOM_MINIMAX;
+				this.status.setText("Inteligenca nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.algoritem = Algoritem.RANDOM_MINIMAX;
+				this.status.setText("Inteligenca nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
+				
+			this.platno.repaint();
+		}
+		// Nastavi algoritem raƒçunalnikove inteligence
+		else if (e.getSource() == this.algoritemMinimaxAlphaBeta) {
+			if (Vodja.igra == null) {
+				Igra.algoritem = Algoritem.MINIMAX_ALPHA_BETA;
+				this.status.setText("Inteligenca nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.algoritem = Algoritem.MINIMAX_ALPHA_BETA;
+				this.status.setText("Inteligenca nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
+				
+			this.platno.repaint();
+		}
+		// Nastavi algoritem raƒçunalnikove inteligence
+		else if (e.getSource() == this.algoritemHitriMinimax) {
+			if (Vodja.igra == null) {
+				Igra.algoritem = Algoritem.HITRI_MINIMAX;
+				this.status.setText("Inteligenca nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
+				Vodja.igra = null;
+				Igra.algoritem = Algoritem.HITRI_MINIMAX;
+				this.status.setText("Inteligenca nastavljena. Izberite ≈æeljeno igro!");
+			}
+			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
+			
+			this.platno.repaint();
+		}
+		
+		// Nastavi zakasnitev poteze
+		else if (e.getSource() == this.menuZakasnitevPoteze) {
+			JTextField field = new JTextField();
+			JComponent[] lab = {new JLabel("Vnesi zakasnitev poteze (default: 1s):"), field};
+			int izbira = JOptionPane.showConfirmDialog(this, lab, "Input", JOptionPane.OK_CANCEL_OPTION);
+			String zakasnitevPoteze = field.getText();
+			if (izbira == JOptionPane.OK_OPTION && zakasnitevPoteze.matches("\\d+")) {
+				Vodja.zakasnitev = Integer.valueOf(zakasnitevPoteze);
+				this.status.setText("Zakasnitev uspe≈°no spremenjena. " + this.status.getText());
+			} else this.status.setText("Prosimo vnesite nenegativno celo ≈°tevilo.");
+			
+			this.platno.repaint();
+		}
+		
+		// Razveljavi potezo
+		else if (e.getSource() == this.razveljaviPotezo) {
+			boolean bool1 = false;
+			boolean bool2 = false;
+			
+			// Ko igrata raƒçunalnika poteze ne razveljavimo
+			if (Vodja.igra == null) {
+				this.status.setText("Najprej izberite ≈æeljeno igro!");
+			} else if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.COMP
+					&& Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.COMP) {
+				this.status.setText("Ko igrata raƒçunalnika, potez ne morete razveljaviti");
+			
+			// Ko igrata ƒçloveka razveljavimo zadnjo potezo
+			} else if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.HUMAN
+					&& Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.HUMAN) {
+				bool1 = Vodja.igra.razveljaviPotezo();
+				if (bool1) this.status.setText("Poteza uspe≈°no razveljavljena. " + this.status.getText());
+				else this.status.setText("Poteza ni bila razveljavljena. " + this.status.getText());
+			
+			// Ko igrata ƒçlovek in raƒçunalnik razveljavimo zadnji dve potezi (raƒçunalnikovo, nato ≈°e ƒçlovekovo)
+			} else if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.COMP
+					&& Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.HUMAN
+					&& Vodja.igra.naPotezi == Igralec.BLACK) {
+				bool1 = Vodja.igra.razveljaviPotezo();
+				bool2 = Vodja.igra.razveljaviPotezo();
+				if (bool1 && bool2) this.status.setText("Potezi razveljavljeni. " + this.status.getText());
+				else this.status.setText("Potezi nista bili razveljavljeni. " + this.status.getText());
+			
+			// Ko igrata ƒçlovek in raƒçunalnik razveljavimo zadnji dve potezi (raƒçunalnikovo, nato ≈°e ƒçlovekovo)
+			} else if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.HUMAN
+					&& Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.COMP
+					&& Vodja.igra.naPotezi == Igralec.WHITE) {
+				bool1 = Vodja.igra.razveljaviPotezo();
+				bool2 = Vodja.igra.razveljaviPotezo();
+				if (bool1 && bool2) this.status.setText("Potezi razveljavljeni. " + this.status.getText());
+				else this.status.setText("Potezi nista bili razveljavljeni. " + this.status.getText());
 			}
 			
-			else if (e.getSource() == this.velikost19) {
-				if (Vodja.igra == null) {
-					Igra.N = 19;
-					this.status.setText("Velikost nastavljena. Izberite ûeljeno igro!");
-				}
-				else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
-					Vodja.igra = null;
-					Igra.N = 19;
-					this.status.setText("Velikost nastavljena. Izberite ûeljeno igro!");
-				}
-				else this.status.setText("Dokler je igra v teku, velikosti ne morete spreminjati.");
-				this.platno.repaint();
-			}
-			
-			// Nastavi algoritem raËunalnikove inteligence
-			else if (e.getSource() == this.algoritemNeumni) {
-				if (Vodja.igra == null) {
-					Igra.algoritem = Algoritem.NEUMNI;
-					this.status.setText("Inteligenca nastavljena. Izberite ûeljeno igro!");
-				}
-				else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
-					Vodja.igra = null;
-					Igra.algoritem = Algoritem.NEUMNI;
-					this.status.setText("Inteligenca nastavljena. Izberite ûeljeno igro!");
-				}
-				else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
-				
-				this.platno.repaint();
-			}
-			
-			else if (e.getSource() == this.algoritemMinimax) {
-				if (Vodja.igra == null) {
-					Igra.algoritem = Algoritem.MINIMAX;
-					this.status.setText("Inteligenca nastavljena. Izberite ûeljeno igro!");
-				}
-				else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
-					Vodja.igra = null;
-					Igra.algoritem = Algoritem.MINIMAX;
-					this.status.setText("Inteligenca nastavljena. Izberite ûeljeno igro!");
-				}
-				else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
-				
-				this.platno.repaint();
-			}
-			
-			else if (e.getSource() == this.algoritemRandomMinimax) {
-				if (Vodja.igra == null) {
-					Igra.algoritem = Algoritem.RANDOM_MINIMAX;
-					this.status.setText("Inteligenca nastavljena. Izberite ûeljeno igro!");
-				}
-				else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
-					Vodja.igra = null;
-					Igra.algoritem = Algoritem.RANDOM_MINIMAX;
-					this.status.setText("Inteligenca nastavljena. Izberite ûeljeno igro!");
-				}
-				else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
-				
-				this.platno.repaint();
-			}
-			
-			else if (e.getSource() == this.algoritemMinimaxAlphaBeta) {
-				if (Vodja.igra == null) {
-					Igra.algoritem = Algoritem.MINIMAX_ALPHA_BETA;
-					this.status.setText("Inteligenca nastavljena. Izberite ûeljeno igro!");
-				}
-				else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
-					Vodja.igra = null;
-					Igra.algoritem = Algoritem.MINIMAX_ALPHA_BETA;
-					this.status.setText("Inteligenca nastavljena. Izberite ûeljeno igro!");
-				}
-				else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
-				
-				this.platno.repaint();
-			}
-			
-			else if (e.getSource() == this.algoritemHitriMinimax) {
-				if (Vodja.igra == null) {
-					Igra.algoritem = Algoritem.HITRI_MINIMAX;
-					this.status.setText("Inteligenca nastavljena. Izberite ûeljeno igro!");
-				}
-				else if (Vodja.igra.stanjeIgre() != Stanje.V_TEKU) {
-					Vodja.igra = null;
-					Igra.algoritem = Algoritem.HITRI_MINIMAX;
-					this.status.setText("Inteligenca nastavljena. Izberite ûeljeno igro!");
-				}
-				else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
-				
-				this.platno.repaint();
-			}
-			
-			// Nastavi zakasnitev poteze
-			else if (e.getSource() == this.menuZakasnitevPoteze) {
-				JTextField field = new JTextField();
-				JComponent[] lab = {new JLabel("Vnesi zakasnitev poteze (default: 1s):"), field};
-				int izbira = JOptionPane.showConfirmDialog(this, lab, "Input", JOptionPane.OK_CANCEL_OPTION);
-				String zakasnitevPoteze = field.getText();
-				if (izbira == JOptionPane.OK_OPTION && zakasnitevPoteze.matches("\\d+")) {
-					Vodja.zakasnitev = Integer.valueOf(zakasnitevPoteze);
-					this.status.setText("Zakasnitev uspeöno spremenjena. " + this.status.getText());
-				} else this.status.setText("Prosimo vnesite nenegativno celo ötevilo.");
-				
-				this.platno.repaint();
-			}
-			
-			// Razveljavi potezo
-			else if (e.getSource() == this.razveljaviPotezo) {
-				boolean bool1 = false;
-				boolean bool2 = false;
-				
-				// Ko igrata raËunalnika poteze ne razveljavimo
-				if (Vodja.igra == null) {
-					this.status.setText("Najprej izberite ûeljeno igro!");
-				} else if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.COMP
-						&& Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.COMP) {
-					this.status.setText("Ko igrata raËunalnika, potez ne morete razveljaviti");
-					
-				// Ko igrata Ëloveka razveljavimo zadnjo potezo
-				} else if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.HUMAN
-						&& Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.HUMAN) {
-					bool1 = Vodja.igra.razveljaviPotezo();
-					if (bool1) this.status.setText("Poteza uspeöno razveljavljena. " + this.status.getText());
-					else this.status.setText("Poteza ni bila razveljavljena. " + this.status.getText());
-					
-				// Ko igrata Ëlovek in raËunalnik razveljavimo zadnji dve potezi
-				} else if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.COMP
-						&& Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.HUMAN
-						&& Vodja.igra.naPotezi == Igralec.BLACK) {
-					bool1 = Vodja.igra.razveljaviPotezo();
-					bool2 = Vodja.igra.razveljaviPotezo();
-					if (bool1 && bool2) this.status.setText("Potezi razveljavljeni. " + this.status.getText());
-					else this.status.setText("Potezi nista bili razveljavljeni. " + this.status.getText());
-				
-				// Ko igrata Ëlovek in raËunalnik razveljavimo zadnji dve potezi
-				} else if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.HUMAN
-						&& Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.COMP
-						&& Vodja.igra.naPotezi == Igralec.WHITE) {
-					bool1 = Vodja.igra.razveljaviPotezo();
-					bool2 = Vodja.igra.razveljaviPotezo();
-					if (bool1 && bool2) this.status.setText("Potezi razveljavljeni. " + this.status.getText());
-					else this.status.setText("Potezi nista bili razveljavljeni. " + this.status.getText());
-				}
-				
-				this.platno.repaint();
-			}
+			this.platno.repaint();
+		}
+		
 		this.osveziGUI();
 	}
 	
 	/**
-	 *  Prikaûe trenutno stanje v igri na igralni ploöËi in v statusni vrstici.
+	 *  Prika≈æe trenutno stanje v igri na igralni plo≈°ƒçi in v statusni vrstici.
 	 */
 	public void osveziGUI() {
 		if (Vodja.igra == null) {
-			status.setText("Izberite ûeljeno igro!");
+			status.setText("Izberite ≈æeljeno igro!");
 		} else {
 			switch(Vodja.igra.stanjeIgre()) {
-			case NEODLOCENO: status.setText("NeodloËeno!"); break;
+			case NEODLOCENO: status.setText("Neodloƒçeno!"); break;
 			case V_TEKU:
 				if (Vodja.igra.naPotezi == Igralec.WHITE && Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.HUMAN) {
-					status.setText("Na potezi je beli - Ëlovek.");
+					status.setText("Na potezi je beli - ƒçlovek.");
 					break;
 				} else if (Vodja.igra.naPotezi == Igralec.WHITE) {
 					status.setText("Na potezi je beli - " + Vodja.racunalnikovaInteligenca.ime() + ".");
 					break;
 				} else if (Vodja.igra.naPotezi == Igralec.BLACK && Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.HUMAN) {
-					status.setText("Na potezi je Ërni - Ëlovek.");
+					status.setText("Na potezi je ƒçrni - ƒçlovek.");
 					break;
 				} else {
-					status.setText("Na potezi je Ërni - " + Vodja.racunalnikovaInteligenca.ime() + ".");
+					status.setText("Na potezi je ƒçrni - " + Vodja.racunalnikovaInteligenca.ime() + ".");
 					break;
 				}
 			case ZMAGA_WHITE:
 				if (Vodja.vrstaIgralca.get(Igralec.WHITE) == VrstaIgralca.HUMAN) {
-					status.setText("Zmagal je beli - Ëlovek. ");
+					status.setText("Zmagal je beli - ƒçlovek. ");
 					break;
 				} else {
 					status.setText("Zmagal je beli - " + Vodja.racunalnikovaInteligenca.ime() + ".");
@@ -402,16 +414,16 @@ public class Okno extends JFrame implements ActionListener {
 				}
 			case ZMAGA_BLACK:
 				if (Vodja.vrstaIgralca.get(Igralec.BLACK) == VrstaIgralca.HUMAN) {
-					status.setText("Zmagal je Ërni - Ëlovek");
+					status.setText("Zmagal je ƒçrni - ƒçlovek");
 					break;
 				} else {
-					status.setText("Zmagal je Ërni - " + Vodja.racunalnikovaInteligenca.ime() + ".");
+					status.setText("Zmagal je ƒçrni - " + Vodja.racunalnikovaInteligenca.ime() + ".");
 					break;
 				}
 			}
 		}
 		
-		platno.repaint();
+		this.platno.repaint();
 	}
 	
 }

@@ -8,8 +8,8 @@ public enum VrstaIgralca {
 	@Override
 	public String toString() {
 		switch (this) {
-		case HUMAN: return "èlovek";
-		case COMP: return "raèunalnik";
+		case HUMAN: return "Älovek";
+		case COMP: return "raÄunalnik";
 		default: assert false; return "";
 		}
 	}

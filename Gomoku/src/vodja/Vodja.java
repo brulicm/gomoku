@@ -12,8 +12,7 @@ import logika.Igralec;
 import splosno.Koordinati;
 
 /**
- * Vodenje poteka igre.
- *
+ * Skrbi za vodenje poteka igre. Ima le statiÄne metode in polja.
  */
 public class Vodja {	
 	
@@ -25,12 +24,12 @@ public class Vodja {
 	
 	public static boolean clovekNaVrsti = false;
 	
-	public static int zakasnitev = 1; // Premor pred vsako raèunalnikovo potezo.
+	public static int zakasnitev = 1; // NajkrajÅ¡i moÅ¾en Äas raÄunalnikove poteze.
 	
 	public static Inteligenca racunalnikovaInteligenca = new Inteligenca("inteligenca");
 	
 	/** 
-	 * Ustvari novo igro in jo zaene.
+	 * Ustvari novo igro in jo nato zaÄne igrati.
 	 */
 	public static void igramoNovoIgro() {
 		igra = new Igra();
@@ -38,7 +37,8 @@ public class Vodja {
 	}
 	
 	/**
-	 * Potek igre
+	 * Nadaljuje s potekom igre. Pogleda, kdo je na potezi in kakÅ¡no je stanje
+	 * igre, ter ustrezno reagira.
 	 */
 	public static void igramo() {
 		okno.osveziGUI();
@@ -63,8 +63,8 @@ public class Vodja {
 	}
 	
 	/**
-	 *  Odigra raèunalnikovo potezo in posodobi grafiko - nariše potezo.
-	 *  Preden odigra poèaka.
+	 *  Pridobi in odigra raÄunalnikovo potezo.
+	 *  Pridobivanje poteze se dogaja v niti v ozadju.
 	 */
 	public static void igrajRacunalnikovoPotezo() {
 		Igra zacetnaIgra = igra;
@@ -79,11 +79,12 @@ public class Vodja {
 				
 				long executionTime = (endTime - startTime) / 1000000; // milisekunde
 				
-				// èe je poteza krajša od (zakasnitev), zaspimo do skupnega èasa (zakasnitev).
+				// ÄŒe je poteza krajÅ¡a od (zakasnitev), zaspimo, da je skupni Äas poteze = (zakasnitev).
 				if (executionTime < 1000*zakasnitev) {
 					try {TimeUnit.MILLISECONDS.sleep(1000*zakasnitev - executionTime);} catch (Exception e) {};
 				}
-				System.out.println("" + executionTime);
+				// Izpisovanje Äasa raÄunanja poteze:
+				// System.out.println("" + executionTime);
 				
 				return poteza;
 			}
@@ -93,8 +94,8 @@ public class Vodja {
 				Koordinati poteza = null;
 				try {poteza = get();} catch (Exception e) {};
 				/*
-				 *  Preveri èe uporabnik med izvajanjem ni spremenil igre, t. j. da ni v meniju izbral nove igre,
-				 *  saj ne elimo odigrati poteze na stari igri.
+				 *  Preveri Äe uporabnik med izvajanjem ni spremenil igre, t. j. da ni v meniju izbral nove igre,
+				 *  saj ne Å¾elimo odigrati poteze na stari igri.
 				 */
 				if (igra == zacetnaIgra) {
 					igra.odigraj(poteza);
@@ -108,9 +109,9 @@ public class Vodja {
 	}
 	
 	/**
-	 * Odigra èlovekovo potezo, èe je mona in nadaljuje z igro.
+	 * Poskusi odigrati Älovekovo potezo in nadaljuje z igro.
 	 * 
-	 * @param poteza izbrana poteza 
+	 * @param Koordinati poteza
 	 */
 	public static void igrajClovekovoPotezo(Koordinati poteza) {
 		if (igra.odigraj(poteza)) clovekNaVrsti = false;
