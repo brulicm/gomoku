@@ -68,7 +68,7 @@ public class Platno extends JPanel implements MouseListener {
 	private void paintToken(Graphics2D g2, int i, int j, int moveX, int moveY) {
 		double w = this.squareWidth();
 		double d = w * (1 - LINE_WIDTH - 2 * PADDING); // Premer kroga
-		// Koordinate zgornjega levega ogli��a objemajo�ega kvadrata.
+		// Koordinate zgornjega levega oglišča objemajo�ega kvadrata.
 		double x = w * (i + 0.5 * LINE_WIDTH + PADDING);
 		double y = w * (j + 0.5 * LINE_WIDTH + PADDING);
 		
