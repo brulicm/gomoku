@@ -228,8 +228,6 @@ public class Okno extends JFrame implements ActionListener {
 				this.status.setText("Velikost nastavljena. Izberite željeno igro!");
 			}
 			else this.status.setText("Dokler je igra v teku, velikosti ne morete spreminjati.");
-			
-			this.platno.repaint();
 		}
 		// Nastavi velikost igralne plošče
 		else if (e.getSource() == this.velikost19) {
@@ -243,8 +241,6 @@ public class Okno extends JFrame implements ActionListener {
 				this.status.setText("Velikost nastavljena. Izberite željeno igro!");
 			}
 			else this.status.setText("Dokler je igra v teku, velikosti ne morete spreminjati.");
-			
-			this.platno.repaint();
 		}
 			
 		// Nastavi algoritem računalnikove inteligence
@@ -259,8 +255,6 @@ public class Okno extends JFrame implements ActionListener {
 				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
 			}
 			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
-				
-			this.platno.repaint();
 		}
 		// Nastavi algoritem računalnikove inteligence
 		else if (e.getSource() == this.algoritemMinimax) {
@@ -274,8 +268,6 @@ public class Okno extends JFrame implements ActionListener {
 				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
 			}
 			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
-			
-			this.platno.repaint();
 		}
 		// Nastavi algoritem računalnikove inteligence
 		else if (e.getSource() == this.algoritemRandomMinimax) {
@@ -289,8 +281,6 @@ public class Okno extends JFrame implements ActionListener {
 				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
 			}
 			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
-				
-			this.platno.repaint();
 		}
 		// Nastavi algoritem računalnikove inteligence
 		else if (e.getSource() == this.algoritemMinimaxAlphaBeta) {
@@ -304,8 +294,6 @@ public class Okno extends JFrame implements ActionListener {
 				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
 			}
 			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
-				
-			this.platno.repaint();
 		}
 		// Nastavi algoritem računalnikove inteligence
 		else if (e.getSource() == this.algoritemHitriMinimax) {
@@ -319,8 +307,6 @@ public class Okno extends JFrame implements ActionListener {
 				this.status.setText("Inteligenca nastavljena. Izberite željeno igro!");
 			}
 			else this.status.setText("Dokler je igra v teku, inteligence ne morete spreminjati.");
-			
-			this.platno.repaint();
 		}
 		
 		// Nastavi zakasnitev poteze
@@ -333,8 +319,6 @@ public class Okno extends JFrame implements ActionListener {
 				Vodja.zakasnitev = Integer.valueOf(zakasnitevPoteze);
 				this.status.setText("Zakasnitev uspešno spremenjena. " + this.status.getText());
 			} else this.status.setText("Prosimo vnesite nenegativno celo število.");
-			
-			this.platno.repaint();
 		}
 		
 		// Razveljavi potezo
@@ -374,11 +358,9 @@ public class Okno extends JFrame implements ActionListener {
 				if (bool1 && bool2) this.status.setText("Potezi razveljavljeni. " + this.status.getText());
 				else this.status.setText("Potezi nista bili razveljavljeni. " + this.status.getText());
 			}
-			
-			this.platno.repaint();
 		}
 		
-		this.osveziGUI();
+		this.platno.repaint();
 	}
 	
 	/**
