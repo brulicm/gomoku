@@ -7,5 +7,5 @@
 ### Opis projekta
 Projekt sestavljajo tri faze:
 - implementacija logike igre,
-- implementacija pametnega računalniškega igralca (na osnovi algoritma [minimax](https://en.wikipedia.org/wiki/Minimax),
+- implementacija pametnega računalniškega igralca (na osnovi algoritma [minimax](https://en.wikipedia.org/wiki/Minimax)),
 - implementacija grafičnega vmesnika.
